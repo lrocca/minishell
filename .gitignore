@@ -3,3 +3,9 @@
 
 # target
 /minishell
+
+# vim
+*.swp
+
+# macOS
+.DS_Store
