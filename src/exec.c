@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 15:58:22 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/24 20:19:19 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/24 20:47:52 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*find_exec(char *cmd, char **paths)
 int	cmd_exec_from_path(char **av)
 {
 	char	*cmd;
-	t_pid	childpid;
+	// t_pid	childpid;
 
 	cmd = find_exec(ft_strjoin("/", av[0]), ft_split(getenv("PATH"), ':'));
 	if (!cmd)

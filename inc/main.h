@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/24 20:40:39 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/24 20:47:18 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_ms {
 
 t_ms	g_ms;
 
+char	*ft_prompt(void);
 void	ft_error(char *err);
 
 /*
