@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/24 14:26:39 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/24 16:11:52 by lrocca           ###   ########.fr       */
+/*   Created: 2021/06/24 19:09:38 by lrocca            #+#    #+#             */
+/*   Updated: 2021/06/24 19:09:56 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,10 @@ char	builtin_pwd(void)
 	pwd = getcwd(NULL, 42);
 	if (!pwd)
 	{
-		ft_error("`getcwd` failed", 0);
+		ft_error("`getcwd` failed");
 		return (errno);
 	}
 	ft_putendl_fd(pwd, STDOUT_FILENO);
 	free(pwd);
-	return (0);
-}
-
-char	builtin_exit(void)
-{
-	exit(EXIT_SUCCESS);
 	return (0);
 }

@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/24 14:31:00 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/24 16:33:44 by lrocca           ###   ########.fr       */
+/*   Created: 2021/06/24 19:07:24 by lrocca            #+#    #+#             */
+/*   Updated: 2021/06/24 20:19:06 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	ft_error(char *err)
+char	builtin_unset(void)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putendl_fd(err, STDERR_FILENO);
+	return (0);
 }

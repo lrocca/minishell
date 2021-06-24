@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/06/24 15:59:31 by lrocca           ###   ########.fr        #
+#    Updated: 2021/06/24 19:16:17 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,12 @@ IFLAGS	=	-I$(INCDIR) -I$(LIBDIR)
 
 NAME	=	minishell
 
-FILES	=	main.c error.c exec.c builtin.c
+FILES	=	main.c error.c exec.c \
+			builtin/env.c \
+			builtin/exit.c \
+			builtin/export.c \
+			builtin/pwd.c \
+			builtin/unset.c
 
 SRCDIR	=	./src
 OBJDIR	=	./obj

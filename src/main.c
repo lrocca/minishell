@@ -6,13 +6,44 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 01:57:50 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/24 16:16:45 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/24 20:40:07 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-char	*cmd_pre(char *cmd)
+static void	parse_env(void)
+{
+	extern char	**environ;
+	int			i;
+	t_var		*new;
+	t_var		*curr;
+	char		**split;
+
+	i = 0;
+	while (environ[i])
+	{
+		split = ft_split(environ[i], '=');
+		if (!split || !split[0])
+			ft_error("env split failed");
+		new = malloc(sizeof(t_var));
+		if (!new)
+			ft_error("var allocation failed");
+		new->name = split[0];
+		new->next = NULL;
+		if (split[1])
+			new->value = split[1];
+		else
+			new->value = ft_strdup("");
+		curr = g_ms.env;
+		while (curr->next)
+			curr = curr->next;
+		curr->next = new;
+		i++;
+	}
+}
+
+static char	*cmd_pre(char *cmd)
 {
 	char	*ret;
 
@@ -23,14 +54,15 @@ char	*cmd_pre(char *cmd)
 
 int	main(void)
 {
-	int		status;
 	char	*cmd;
 
-	status = 0;
+	g_ms.env = NULL;
+	g_ms.status = 0;
+	parse_env();
 	while (1)
 	{
 		ft_putchar_fd('[', STDOUT_FILENO);
-		ft_putnbr_fd(status, STDOUT_FILENO);
+		ft_putnbr_fd(g_ms.status, STDOUT_FILENO);
 		ft_putchar_fd(']', STDOUT_FILENO);
 		cmd = readline("ms > ");
 		cmd = cmd_pre(cmd);
@@ -40,8 +72,11 @@ int	main(void)
 			return (0);
 		}
 		else if (ft_strlen(cmd) == 0)
+		{
+			g_ms.status = 0;
 			continue ;
-		status = cmd_exec(cmd);
+		}
+		g_ms.status = cmd_exec(cmd);
 	}
 	return (0);
 }
