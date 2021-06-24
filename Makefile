@@ -6,12 +6,13 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/06/24 02:39:18 by lrocca           ###   ########.fr        #
+#    Updated: 2021/06/24 02:53:52 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		=	gcc
 CFLAGS	=	-Wall -Wextra -Werror
+IFLAGS	=	-I$(INCDIR)
 
 NAME	=	minishell
 
@@ -31,7 +32,7 @@ $(NAME): $(OBJ)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir $(@D)
-	$(CC) $(CFLAGS) -c $^ -o $@
+	$(CC) $(CFLAGS) $(IFLAGS) -c $^ -o $@
 
 clean:
 	$(RM) $(OBJ)
