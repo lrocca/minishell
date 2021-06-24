@@ -1,37 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/24 16:10:25 by lrocca           ###   ########.fr       */
+/*   Created: 2021/06/24 15:58:22 by lrocca            #+#    #+#             */
+/*   Updated: 2021/06/24 16:17:12 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "main.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+int	cmd_exec_from_path(char **av)
+{
+	char	*path;
+	char	**split;
 
-# include "libft.h"
+	path = getenv("PATH");
+	split = ft_split(path, ':');
+	(void)av;
+	return (127);
+}
 
-void	ft_error(char *err, char opt);
+int	cmd_exec(const char *cmd)
+{
+	char	**av;
 
-/*
-** exec
-*/
-int	cmd_exec(const char *cmd);
-
-/*
-** builtins
-*/
-char	builtin_pwd(void);
-char	builtin_exit(void);
-
-#endif
+	av = ft_splitspace(cmd);
+	if (!ft_strcmp(av[0], "pwd"))
+		return (builtin_pwd());
+	else if (!ft_strcmp(av[0], "exit"))
+		return (builtin_exit());
+	else
+		return (cmd_exec_from_path(av));
+}

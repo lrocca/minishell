@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/06/24 03:02:56 by lrocca           ###   ########.fr        #
+#    Updated: 2021/06/24 15:59:31 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ IFLAGS	=	-I$(INCDIR) -I$(LIBDIR)
 
 NAME	=	minishell
 
-FILES	=	main.c
+FILES	=	main.c error.c exec.c builtin.c
 
 SRCDIR	=	./src
 OBJDIR	=	./obj
@@ -31,10 +31,10 @@ OBJ	=	$(patsubst $(SRCDIR)%, $(OBJDIR)%, $(SRC:.c=.o))
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIBFT)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) -lreadline $^ -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@mkdir $(@D)
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(IFLAGS) -c $^ -o $@
 
 $(LIBFT):

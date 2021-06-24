@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/24 16:10:25 by lrocca           ###   ########.fr       */
+/*   Created: 2021/06/24 14:26:39 by lrocca            #+#    #+#             */
+/*   Updated: 2021/06/24 16:11:52 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#include "main.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+char	builtin_pwd(void)
+{
+	char	*pwd;
 
-# include "libft.h"
+	pwd = getcwd(NULL, 42);
+	if (!pwd)
+	{
+		ft_error("`getcwd` failed", 0);
+		return (errno);
+	}
+	ft_putendl_fd(pwd, STDOUT_FILENO);
+	free(pwd);
+	return (0);
+}
 
-void	ft_error(char *err, char opt);
-
-/*
-** exec
-*/
-int	cmd_exec(const char *cmd);
-
-/*
-** builtins
-*/
-char	builtin_pwd(void);
-char	builtin_exit(void);
-
-#endif
+char	builtin_exit(void)
+{
+	exit(EXIT_SUCCESS);
+	return (0);
+}
