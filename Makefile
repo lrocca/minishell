@@ -6,17 +6,22 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/06/24 20:46:47 by lrocca           ###   ########.fr        #
+#    Updated: 2021/06/26 20:27:24 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-g -Wall -Wextra -Werror
 IFLAGS	=	-I$(INCDIR) -I$(LIBDIR)
 
 NAME	=	minishell
 
-FILES	=	main.c error.c exec.c prompt.c \
+FILES	=	main.c error.c prompt.c exec.c \
+			parse/lexer.c \
+			parse/redirection.c \
+			utils/cmd.c \
+			utils/ft_ismeta.c \
+			utils/ft_prepend.c \
 			builtin/env.c \
 			builtin/exit.c \
 			builtin/export.c \

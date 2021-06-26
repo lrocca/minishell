@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 01:57:50 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/24 20:48:48 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/26 19:49:36 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,64 @@ static char	*cmd_pre(char *cmd)
 	return (ret);
 }
 
+static void	debug_lexer(t_cmd *head)
+{
+	t_list	*curr;
+
+	if (!head)
+		return (ft_putendl_fd("head == NULL", STDOUT_FILENO));
+	while (head)
+	{
+		ft_putendl_fd(">>> av", STDOUT_FILENO);
+		curr = head->av;
+		while (curr)
+		{
+			ft_putendl_fd(curr->content, STDOUT_FILENO);
+			curr = curr->next;
+		}
+		ft_putendl_fd(">>> in", STDOUT_FILENO);
+		curr = head->in;
+		while (curr)
+		{
+			ft_putendl_fd(curr->content, STDOUT_FILENO);
+			curr = curr->next;
+		}
+		ft_putendl_fd(">>> out", STDOUT_FILENO);
+		curr = head->out;
+		while (curr)
+		{
+			ft_putendl_fd(curr->content, STDOUT_FILENO);
+			curr = curr->next;
+		}
+		head = head->next;
+	}
+}
+
 int	main(void)
 {
-	char	*cmd;
+	char	*line;
+	t_cmd	*head;
 
 	g_ms.env = NULL;
 	g_ms.status = 0;
 	// parse_env();
 	while (1)
 	{
-		cmd = ft_prompt();
-		cmd = cmd_pre(cmd);
-		if (cmd == NULL)
+		line = ft_prompt();
+		line = cmd_pre(line);
+		if (line == NULL)
 		{
 			ft_putchar_fd('\n', STDOUT_FILENO);
 			return (0);
 		}
-		else if (ft_strlen(cmd) == 0)
+		else if (ft_strlen(line) == 0)
 		{
 			g_ms.status = 0;
 			continue ;
 		}
-		g_ms.status = cmd_exec(cmd);
+		head = lexer(line);
+		debug_lexer(head);
+		// g_ms.status = cmd_exec(line);
 	}
 	return (0);
 }
