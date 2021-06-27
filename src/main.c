@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 01:57:50 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/26 19:49:36 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/27 04:17:37 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,10 @@
 // 	}
 // }
 
-static char	*cmd_pre(char *cmd)
-{
-	char	*ret;
-
-	ret = ft_strtrim(cmd, " \t\v\f\r");
-	free(cmd);
-	return (ret);
-}
-
 static void	debug_lexer(t_cmd *head)
 {
 	t_list	*curr;
+	t_redir	*curr2;
 
 	if (!head)
 		return (ft_putendl_fd("head == NULL", STDOUT_FILENO));
@@ -64,22 +56,28 @@ static void	debug_lexer(t_cmd *head)
 		curr = head->av;
 		while (curr)
 		{
-			ft_putendl_fd(curr->content, STDOUT_FILENO);
+			ft_putchar_fd('|', STDOUT_FILENO);
+			ft_putstr_fd(curr->content, STDOUT_FILENO);
+			ft_putendl_fd("|", STDOUT_FILENO);
 			curr = curr->next;
 		}
 		ft_putendl_fd(">>> in", STDOUT_FILENO);
-		curr = head->in;
-		while (curr)
+		curr2 = head->in;
+		while (curr2)
 		{
-			ft_putendl_fd(curr->content, STDOUT_FILENO);
-			curr = curr->next;
+			ft_putchar_fd('|', STDOUT_FILENO);
+			ft_putstr_fd(curr2->value, STDOUT_FILENO);
+			ft_putendl_fd("|", STDOUT_FILENO);
+			curr2 = curr2->next;
 		}
 		ft_putendl_fd(">>> out", STDOUT_FILENO);
-		curr = head->out;
-		while (curr)
+		curr2 = head->out;
+		while (curr2)
 		{
-			ft_putendl_fd(curr->content, STDOUT_FILENO);
-			curr = curr->next;
+			ft_putchar_fd('|', STDOUT_FILENO);
+			ft_putstr_fd(curr2->value, STDOUT_FILENO);
+			ft_putendl_fd("|", STDOUT_FILENO);
+			curr2 = curr2->next;
 		}
 		head = head->next;
 	}
@@ -89,27 +87,27 @@ int	main(void)
 {
 	char	*line;
 	t_cmd	*head;
+	int		status;
 
-	g_ms.env = NULL;
-	g_ms.status = 0;
 	// parse_env();
+	status = 0;
 	while (1)
 	{
-		line = ft_prompt();
-		line = cmd_pre(line);
+		line = ft_prompt(status);
 		if (line == NULL)
 		{
-			ft_putchar_fd('\n', STDOUT_FILENO);
-			return (0);
+			ft_putendl_fd("\b\bexit", STDOUT_FILENO);
+			break ;
 		}
 		else if (ft_strlen(line) == 0)
-		{
-			g_ms.status = 0;
 			continue ;
-		}
 		head = lexer(line);
+		if (!head)
+			status = 258;
+		else
+			status = 0;
 		debug_lexer(head);
 		// g_ms.status = cmd_exec(line);
 	}
-	return (0);
+	return (status);
 }

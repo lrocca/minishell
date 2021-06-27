@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 18:22:38 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/26 20:25:57 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/27 01:41:34 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_cmd	*ft_cmdnew(void)
 t_cmd	*ft_cmdlast(t_cmd *head)
 {
 	if (!head)
-		return (ft_cmdnew()); // unsafe
+		return (NULL);
 	while (head->next)
 		head = head->next;
 	return (head);

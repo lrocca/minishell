@@ -6,34 +6,73 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 20:12:30 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/26 20:26:37 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/27 04:26:45 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-int	parse_redirection(const char *line, char **buff, char *quote, t_cmd *head)
+static char	set_redir_type(const char c1, const char c2)
 {
-	int		i;
-	char	redir;
+	char	type;
 
-	i = 0;
-	redir = switch_redir((char *)(line));
-	i++;
-	if (redir > 2)
-		i++;
-	while (ft_isspace(line[i]))
-		i++;
-	i = get_word(line, &buff, i, &quote);
-	if (!buff)
-		ft_error("syntax error (redir)");
-	if (redir == 3)
-		ft_prepend("<", &buff);
-	else if (redir == 4)
-		ft_prepend(">", &buff);
-	if (redir % 2)
-		ft_lstadd_back(&ft_cmdlast(head)->in, ft_lstnew(buff));
+	type = c1;
+	if (c2 == c1)
+		type += c2;
+	return (type);
+}
+
+static t_redir	*ft_redirnew(char *word, char type)
+{
+	t_redir	*new;
+
+	new = malloc(sizeof(t_redir));
+	new->value = word;
+	new->type = type;
+	new->next = NULL;
+	return (new);
+}
+
+void	ft_rediradd_back(t_cmd **head, t_redir *new, char type)
+{
+	t_cmd	*cmd;
+	t_redir	*last;
+
+	if (!*head)
+	{
+		cmd = ft_cmdnew();
+		*head = cmd;
+	}
 	else
-		ft_lstadd_back(&ft_cmdlast(head)->out, ft_lstnew(buff));
-	buff = NULL;
+		cmd = ft_cmdlast(*head);
+	if (type % '<' == 0 && !cmd->in)
+		cmd->in = new;
+	else if (type % '>' == 0 && !cmd->out)
+		cmd->out = new;
+	else
+	{
+		if (type % '<' == 0)
+			last = cmd->in;
+		else
+			last = cmd->out;
+		while (last && last->next)
+			last = last->next;
+		last->next = new;
+	}
+}
+
+int	handle_redir(t_cmd **head, const char *line, int *i)
+{
+	char	type;
+	char	*word;
+	t_redir	*new;
+
+	type = set_redir_type(line[*i], line[*i + 1]);
+	*i += 1 + (type > '>');
+	word = line_to_word(line, i);
+	if (!word)
+		return (-1);
+	new = ft_redirnew(word, type > '>');
+	ft_rediradd_back(head, new, type);
+	return (0);
 }

@@ -6,26 +6,34 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/26 20:19:39 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/27 04:01:01 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
 
-# include <unistd.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <readline/readline.h>
 # include <readline/history.h>
+# include <readline/readline.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <unistd.h>
 
 # include "libft.h"
+
+typedef struct s_redir
+{
+	char			*value;
+	char			type;
+	struct s_redir	*next;
+}	t_redir;
 
 typedef struct s_cmd {
 	char			*bin;
 	t_list			*av;
-	t_list			*in;
-	t_list			*out;
+	t_redir			*in;
+	t_redir			*out;
 	int				fdin;
 	int				fdout;
 	char			*delimiter;
@@ -46,12 +54,19 @@ typedef struct s_ms {
 
 t_ms	g_ms;
 
-char	*ft_prompt(void);
+char	*ft_prompt(int status);
 void	ft_error(char *err);
 
+/*
+** lexer
+*/
 t_cmd	*lexer(const char *line);
-int		parse_redirection(const char *line, char **buff, char *quote, \
-							t_cmd *head);
+char	*line_to_word(const char *line, int *i);
+
+/*
+** handlers
+*/
+int		handle_redir(t_cmd **head, const char *line, int *i);
 
 /*
 ** cmd

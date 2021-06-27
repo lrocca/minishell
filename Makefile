@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/06/26 20:27:24 by lrocca           ###   ########.fr        #
+#    Updated: 2021/06/27 03:58:32 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC	=	$(addprefix $(SRCDIR)/, $(FILES))
 OBJ	=	$(patsubst $(SRCDIR)%, $(OBJDIR)%, $(SRC:.c=.o))
 
 all: $(NAME)
+	./minishell
 
 $(NAME): $(OBJ) $(LIBFT)
 	$(CC) $(CFLAGS) -lreadline $^ -o $@

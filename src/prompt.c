@@ -6,16 +6,21 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 20:26:44 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/24 20:46:38 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/27 03:14:20 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-char	*ft_prompt(void)
+#define RED "\e[0;31m"
+#define GRN "\e[0;32m"
+#define RES "\e[0m"
+
+#define PROMPT "$ "
+
+char	*ft_prompt(int status)
 {
-	ft_putchar_fd('[', STDOUT_FILENO);
-	ft_putnbr_fd(g_ms.status, STDOUT_FILENO);
-	ft_putstr_fd("] ", STDOUT_FILENO);
-	return (readline("ms > "));
+	if (status == 0)
+		return (readline(GRN PROMPT RES));
+	return (readline(RED PROMPT RES));
 }

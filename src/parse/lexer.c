@@ -6,13 +6,13 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 03:12:19 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/27 00:46:19 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/27 04:23:39 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-#define BUFFER_SIZE 256
+#define BUFFER_SIZE 64
 
 static char	*new_buff(char *buff)
 {
@@ -39,50 +39,39 @@ static void	char_to_buff(char **buff, char new)
 	(*buff)[len] = new;
 }
 
-static void	buff_to_word(t_cmd **head, char **buff)
+static char	*buff_to_word(char **buff, char quote)
 {
-	t_cmd	*curr;
+	char	*word;
 
-	if (!*buff)
-		return ;
-	if (!*head)
-		*head = ft_cmdnew();
-	curr = ft_cmdlast(*head);
-	ft_lstadd_back(&(curr->av), ft_lstnew(*buff));
-	*buff = NULL;
-}
-
-int	get_word(const char *line, char **buff, int i, char *quote)
-{
-	while (line[i] && !ft_ismeta(line[i]))
+	if (quote && *buff)
 	{
-		if (line[i] == '$')
-		{
-			if (*quote == '\'')
-				char_to_buff(buff, line[i]);
-			else
-				;
-				// expand variable
-		}
-		else if (line[i] == '\'' || line[i] == '\"')
-		{
-			if (*quote == line[i])
-				*quote = 0;
-			else if (!*quote)
-				*quote = line[i];
-			else
-				char_to_buff(buff, line[i]);
-		}
-		else
-			char_to_buff(buff, line[i]);
-		i++;
+		free(*buff);
+		*buff = NULL;
+		// maybe throw unclosed quote error
 	}
-	if (line[i] != '\0')
-		i--;
-	return (i);
+	if (!*buff)
+		return (NULL);
+	word = ft_strdup(*buff);
+	free(*buff);
+	*buff = NULL;
+	return (word);
 }
 
-void	handle_quotes(char **buff, char *quote, char new)
+void	word_to_av(t_cmd **head, char *word)
+{
+	t_cmd	*cmd;
+
+	if (!*head)
+	{
+		cmd = ft_cmdnew();
+		*head = cmd;
+	}
+	else
+		cmd = ft_cmdlast(*head);
+	ft_lstadd_back(&cmd->av, ft_lstnew(word));
+}
+
+static void	handle_quotes(char **buff, char *quote, char new)
 {
 	if (!*quote)
 		*quote = new;
@@ -92,99 +81,78 @@ void	handle_quotes(char **buff, char *quote, char new)
 		char_to_buff(buff, new);
 }
 
-char	*line_to_word(const char *line)
+char	*line_to_word(const char *line, int *i)
 {
-	static int	i = 0;
-	char		*buff;
-	char		quote;
+	char	*buff;
+	char	quote;
 
 	buff = NULL;
 	quote = 0;
-	if (!line[i])
+	if (!line[*i])
 		return (NULL);
-	while (line[i])
+	while (line[*i])
 	{
-		if (ft_ismeta(line[i]) && !quote)
+		if (!buff && !quote && ft_isspace(line[*i]))
+		{
+			while (ft_isspace(line[*i]))
+				(*i)++;
+			continue ;
+		}
+		if (!quote && (ft_ismeta(line[*i]) || (buff && ft_isspace(line[*i]))))
 			break ;
-		if (line[i] == '\'' || line[i] == '\"')
-			handle_quotes(&buff, &quote, line[i]);
-		else if (ft_ismeta(line[i]))
-			char_to_buff(&buff, line[i]);
-		else if ()
+		else if (line[*i] == '\'' || line[*i] == '\"')
+			handle_quotes(&buff, &quote, line[*i]);
+		else if (line[*i] == '$' && quote != '\'')
+			; // expand variable
+		else
+			char_to_buff(&buff, line[*i]);
+		(*i)++;
 	}
-	if (quote && buff)
-	{
-		free(buff);
-		buff = NULL;
-	}
-	return (buff);
+	return (buff_to_word(&buff, quote));
 }
 
 t_cmd	*lexer(const char *line)
 {
 	int		i;
-	char	*buff;
 	t_cmd	*head;
-	char	quote;
-	char	redir;
+	char	*word;
 
 	i = 0;
-	quote = 0;
-	redir = 0;
-	buff = NULL;
 	head = NULL;
-	while (line[i])
+	while (1)
 	{
-		if (quote)
+		word = line_to_word(line, &i);
+		if (!word)
 		{
-
-		}
-		else
-		{
-			if (line[i] == '|')
+			if (!line[i])
+				break ;
+			else if (line[i] == '|')
 			{
+				if (!head)
+				{
+					ft_error("syntax error (pipe left)");
+					return (NULL);
+				}
 				i++;
-				while (line[i] && ft_isspace(line[i + 1]))
-					i++;
-				if (line[i] == '\0')
+				word = line_to_word(line, &i);
+				if (!word)
+				{
 					ft_error("syntax error (pipe right)");
-				else
-				{
-					buff_to_word(&head, &buff);
-					if (!head)
-						ft_error("syntax error (pipe left)");
-					else
-						ft_cmdadd_back(&head, ft_cmdnew());
+					return (NULL);
 				}
-			}
-			else if (line[i] == '<' || line[i] == '>')
-			{
-				if (quote)
-					char_to_buff(&buff, line[i]);
-				else
-				{
-					buff_to_word(&head, &buff);
-					i += parse_redirection(line, &buff, &quote, head);
-				}
-			}
-			else if (ft_isspace(line[i]))
-			{
-				if (quote)
-					char_to_buff(&buff, line[i]);
-				else
-					buff_to_word(&head, &buff);
+				ft_cmdadd_back(&head, ft_cmdnew());
+				word_to_av(&head, word);
 			}
 			else
-				i = get_word(line, &buff, i, &quote);
+				if (handle_redir(&head, line, &i) == -1)
+				{
+					ft_error("syntax error (redirection)");
+					return (NULL);
+				}
 		}
-		i++;
+		else
+			word_to_av(&head, word);
 	}
-	if (quote)
-	{
-		free(buff);
-		buff = NULL;
-	}
-	buff_to_word(&head, &buff);
 	return (head);
 }
 
@@ -196,6 +164,8 @@ t_cmd	*lexer(const char *line)
 // 		set filename/delimiter & options
 // 	elif bin == NULL
 // 		bin = builtin or find path for token
+// 	elif av == NULL
+// 		ERROR!
 // }
 
 // main
