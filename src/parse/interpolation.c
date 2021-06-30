@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 04:48:18 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/30 05:39:54 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/30 06:51:40 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,22 @@ int	handle_dollar(char **buff, const char *line, int *i)
 	char		*name;
 	int			j;
 
-	if (!(ft_isalpha(line[*i + 1]) || line[*i + 1] == '_'))
+	name = NULL;
+	if (!(ft_isalpha(line[*i + 1]) \
+		|| line[*i + 1] == '_' || line[*i + 1] == '?'))
 		return (0);
 	(*i)++;
-	name = line_to_name(line, i);
-	var = ft_getenv(name);
-	j = 0;
-	if (!var)
-		while (name[j])
-			char_to_buff(buff, name[j++]);
+	if (line[*i] == '?')
+		var = ft_itoa(g_ms.status);
 	else
+	{
+		name = line_to_name(line, i);
+		if (!name)
+			return (0);
+		var = ft_getenv(name);
+	}
+	j = 0;
+	if (var)
 		while (var[j])
 			char_to_buff(buff, var[j++]);
 	free(name);
