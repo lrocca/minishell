@@ -36,14 +36,11 @@ typedef struct s_redir
 }	t_redir;
 
 typedef struct s_cmd {
-	char			*bin;
 	t_list			*av;
 	t_redir			*in;
 	t_redir			*out;
 	int				fdin;
 	int				fdout;
-	char			*delimiter;
-	char			append;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -82,8 +79,6 @@ void	ft_cmdadd_back(t_cmd **head, t_cmd *new);
 /*
 ** utils
 */
-void	ft_prepend(char *src, char **dst);
-char	switch_redir(const char *str);
 char	ft_ismeta(const char c);
 
 /*
