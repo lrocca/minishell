@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 05:15:02 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/30 05:42:29 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/30 06:43:37 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	builtin_echo(t_list *av)
 
 	end = '\n';
 	av = av->next;
-	if (!ft_strcmp(av->content, "-n"))
+	if (av && !ft_strcmp(av->content, "-n"))
 	{
 		end = '\0';
 		av = av->next;
