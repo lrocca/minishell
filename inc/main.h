@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/27 04:01:01 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/30 05:32:33 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # include <unistd.h>
 
 # include "libft.h"
+
+# define PATHS_GET	0
+# define PATHS_FREE	1
+
+# define ERR_CMD_NOT_FOUND	127
+# define ERR_SYNTAX			258
 
 typedef struct s_redir
 {
@@ -41,20 +47,15 @@ typedef struct s_cmd {
 	struct s_cmd	*next;
 }	t_cmd;
 
-typedef struct s_var {
-	char			*name;
-	char			*value;
-	struct s_var	*next;
-}	t_var;
-
 typedef struct s_ms {
 	int		status;
-	t_var	*env;
+	t_list	*env;
 }	t_ms;
 
 t_ms	g_ms;
 
-char	*ft_prompt(int status);
+void	init_env(void);
+char	*ft_prompt(void);
 void	ft_error(char *err);
 
 /*
@@ -81,6 +82,16 @@ void	ft_cmdadd_back(t_cmd **head, t_cmd *new);
 void	ft_prepend(char *src, char **dst);
 char	switch_redir(const char *str);
 char	ft_ismeta(const char c);
+
+/*
+** env
+*/
+char	*ft_getenv(char *name);
+
+/*
+** paths
+*/
+char	ft_paths(char ***paths, char opt);
 
 /*
 ** exec

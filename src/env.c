@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/24 20:26:44 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/29 17:48:21 by lrocca           ###   ########.fr       */
+/*   Created: 2021/06/29 17:43:24 by lrocca            #+#    #+#             */
+/*   Updated: 2021/06/29 19:07:57 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-#define RED "\1\e[31m\2"
-#define GRN "\1\e[32m\2"
-#define RES "\1\e[0m\2"
-
-#define PROMPT "$ "
-
-char	*ft_prompt(void)
+void	init_env(void)
 {
-	if (g_ms.status == 0)
-		return (readline(GRN PROMPT RES));
-	return (readline(RED PROMPT RES));
+	extern const char	**environ;
+	int					i;
+
+	i = 0;
+	g_ms.env = NULL;
+	if (!environ)
+		return ;
+	while (environ[i])
+		ft_lstadd_back(&g_ms.env, ft_lstnew(ft_strdup(environ[i++])));
 }
