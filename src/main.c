@@ -31,6 +31,7 @@ int	main(void)
 		if (!head)
 			g_ms.status = ERR_SYNTAX;
 		else
+			cmd_exec(head);
 		// free cmd
 	}
 	ft_paths(NULL, PATHS_FREE);

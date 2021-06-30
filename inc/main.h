@@ -94,14 +94,15 @@ char	ft_paths(char ***paths, char opt);
 /*
 ** exec
 */
-int		cmd_exec(const char *cmd);
+void	cmd_exec(const t_cmd *head);
 
 /*
 ** builtins
 */
 char	builtin_pwd(void);
-char	builtin_export(char **av);
+char	builtin_export(t_list *av);
 char	builtin_env(void);
 char	builtin_exit(void);
+char	builtin_echo(t_list *av);
 
 #endif

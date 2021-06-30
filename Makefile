@@ -25,6 +25,7 @@ FILES	=	main.c error.c prompt.c exec.c env.c path.c \
 			utils/ft_ismeta.c \
 			utils/getenv.c \
 			builtin/env.c \
+			builtin/echo.c \
 			builtin/exit.c \
 			builtin/export.c \
 			builtin/pwd.c \
