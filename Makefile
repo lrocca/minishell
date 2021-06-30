@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/06/30 06:06:18 by lrocca           ###   ########.fr        #
+#    Updated: 2021/06/30 06:08:38 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ NAME	=	minishell
 FILES	=	main.c error.c prompt.c exec.c env.c path.c \
 			parse/lexer.c \
 			parse/redirection.c \
+			parse/interpolation.c \
 			utils/cmd.c \
 			utils/ft_ismeta.c \
 			utils/getenv.c \

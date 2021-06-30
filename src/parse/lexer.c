@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 03:12:19 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/27 04:23:39 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/06/30 05:36:29 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static char	*new_buff(char *buff)
 	return (new);
 }
 
-static void	char_to_buff(char **buff, char new)
+void	char_to_buff(char **buff, char new)
 {
 	size_t	len;
 
@@ -39,7 +39,7 @@ static void	char_to_buff(char **buff, char new)
 	(*buff)[len] = new;
 }
 
-static char	*buff_to_word(char **buff, char quote)
+char	*buff_to_word(char **buff, char quote)
 {
 	char	*word;
 
@@ -103,7 +103,7 @@ char	*line_to_word(const char *line, int *i)
 		else if (line[*i] == '\'' || line[*i] == '\"')
 			handle_quotes(&buff, &quote, line[*i]);
 		else if (line[*i] == '$' && quote != '\'')
-			; // expand variable
+			handle_dollar(&buff, line, i);
 		else
 			char_to_buff(&buff, line[*i]);
 		(*i)++;

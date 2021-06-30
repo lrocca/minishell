@@ -62,12 +62,15 @@ void	ft_error(char *err);
 ** lexer
 */
 t_cmd	*lexer(const char *line);
+void	char_to_buff(char **buff, char new);
+char	*buff_to_word(char **buff, char quote);
 char	*line_to_word(const char *line, int *i);
 
 /*
 ** handlers
 */
 int		handle_redir(t_cmd **head, const char *line, int *i);
+int		handle_dollar(char **buff, const char *line, int *i);
 
 /*
 ** cmd
