@@ -80,6 +80,7 @@ void	ft_cmdadd_back(t_cmd **head, t_cmd *new);
 ** utils
 */
 char	ft_ismeta(const char c);
+char	**list_to_array(t_list *head);
 
 /*
 ** env
