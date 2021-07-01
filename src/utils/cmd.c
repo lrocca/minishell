@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 18:22:38 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/27 01:41:34 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 19:44:51 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_cmd	*ft_cmdnew(void)
 	new->av = NULL;
 	new->in = NULL;
 	new->out = NULL;
+	new->fdin = STDIN_FILENO;
+	new->fdout = STDOUT_FILENO;
 	return (new);
 }
 

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 04:48:18 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 03:37:39 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 19:58:40 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	handle_dollar(char **buff, const char *line, int *i)
 	int			j;
 
 	name = NULL;
+	var = NULL;
 	if (!(ft_isname_start(line[*i + 1]) || line[*i + 1] == '?'))
 		return (0);
 	(*i)++;
