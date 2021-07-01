@@ -17,7 +17,7 @@ LDFLAGS	+=	-lreadline
 
 NAME	=	minishell
 
-FILES	=	main.c error.c prompt.c exec.c env.c path.c \
+FILES	=	main.c error.c prompt.c exec.c env.c path.c signal.c \
 			builtin/cd.c \
 			builtin/echo.c \
 			builtin/env.c \
@@ -32,7 +32,6 @@ FILES	=	main.c error.c prompt.c exec.c env.c path.c \
 			utils/env.c \
 			utils/ft_ismeta.c \
 			utils/ft_isname_start.c \
-			utils/getenv.c \
 			utils/line_to_name.c
 
 SRCDIR	=	./src

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 01:57:50 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 04:13:55 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 20:03:31 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	main(void)
 	t_cmd	*head;
 
 	init_env();
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);
 	g_ms.status = 0;
 	while (1)
 	{
