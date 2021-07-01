@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 19:08:55 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 17:58:13 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 20:15:42 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,16 @@ static char	print_env(void)
 
 char	builtin_export(t_list *av)
 {
-	int		i;
-	char	*token;
-
 	if (!av->next)
 		return (print_env());
+	av = av->next;
 	while (av)
 	{
-		i = 0;
-		token = line_to_name(av->content, &i);
-		// TODO add error management
-		if (token && ((char *)av->content)[i] == '=')
-			ft_lstadd_back(&g_ms.env, ft_lstnew(ft_strdup(av->content)));
-		free(token);
+		if (ft_setenv(av->content) < 0)
+		{
+			ft_error("export: invalid identifier");
+			return (1);
+		}
 		av = av->next;
 	}
 	return (0);
