@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/06/30 06:08:38 by lrocca           ###   ########.fr        #
+#    Updated: 2021/07/01 04:08:16 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,18 +18,20 @@ LDFLAGS	+=	-lreadline
 NAME	=	minishell
 
 FILES	=	main.c error.c prompt.c exec.c env.c path.c \
-			parse/lexer.c \
-			parse/redirection.c \
-			parse/interpolation.c \
-			utils/cmd.c \
-			utils/ft_ismeta.c \
-			utils/getenv.c \
-			builtin/env.c \
 			builtin/echo.c \
+			builtin/env.c \
 			builtin/exit.c \
 			builtin/export.c \
 			builtin/pwd.c \
-			builtin/unset.c
+			builtin/unset.c \
+			parsing/interpolation.c \
+			parsing/lexer.c \
+			parsing/redirection.c \
+			utils/cmd.c \
+			utils/ft_ismeta.c \
+			utils/ft_isname_start.c \
+			utils/getenv.c \
+			utils/line_to_name.c
 
 SRCDIR	=	./src
 OBJDIR	=	./obj
