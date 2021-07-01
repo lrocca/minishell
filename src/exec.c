@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 15:58:22 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 04:14:35 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 04:26:17 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	cmd_exec(const t_cmd *head)
 {
 	if (ft_strchr(head->av->content, '='))
 		;
+	else if (!ft_strcmp(head->av->content, "cd"))
+		g_ms.status = builtin_cd(head->av);
 	else if (!ft_strcmp(head->av->content, "pwd"))
 		g_ms.status = builtin_pwd();
 	else if (!ft_strcmp(head->av->content, "env"))

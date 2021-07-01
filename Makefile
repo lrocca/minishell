@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/07/01 04:08:16 by lrocca           ###   ########.fr        #
+#    Updated: 2021/07/01 04:26:48 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ LDFLAGS	+=	-lreadline
 NAME	=	minishell
 
 FILES	=	main.c error.c prompt.c exec.c env.c path.c \
+			builtin/cd.c \
 			builtin/echo.c \
 			builtin/env.c \
 			builtin/exit.c \
