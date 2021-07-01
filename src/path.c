@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 18:44:15 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/29 18:56:24 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 18:52:37 by mxu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ char	ft_paths(char ***paths, char opt)
 	static char	**ptr = NULL;
 	int			i;
 
-	if (opt == PATHS_GET && paths)
+	if (opt == PATHS_GET) 
 	{
+		if (!paths)
+			return (-1);
 		if (ptr)
 		{
 			*paths = ptr;
@@ -44,7 +46,6 @@ char	ft_paths(char ***paths, char opt)
 		while (ptr[i])
 			free(ptr[i++]);
 		free(ptr);
+	}
 		return (0);
 	}
-	return (-1);
-}
