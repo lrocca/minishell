@@ -1,0 +1,9 @@
+# .github/workflows/norminette.yml
+name: norminette
+on: [push]
+
+jobs:
+  v3:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: alexandregv/norminette-action@v3
