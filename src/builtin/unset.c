@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 19:07:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 03:55:11 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 20:18:55 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ char	builtin_unset(t_list *av)
 		av = av->next;
 		if (!av)
 			break ;
-		if (!ft_isname_start(((char *)av->content)[0]))
-			continue ;
 		token = line_to_name(av->content, &i);
+		if (!token)
+			continue ;
 		if (!((char *)av->content)[i])
 			remove_from_env(ft_strjoin(token, "="));
 		free(token);

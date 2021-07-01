@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 04:26:30 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 20:11:10 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ char	*line_to_word(const char *line, int *i);
 /*
 ** handlers
 */
+void	handle_sigint(int signum);
 int		handle_redir(t_cmd **head, const char *line, int *i);
 int		handle_dollar(char **buff, const char *line, int *i);
 
@@ -88,6 +89,7 @@ char	**list_to_array(t_list *head);
 ** env
 */
 char	*ft_getenv(char *name);
+char	ft_setenv(char *var);
 
 /*
 ** paths

@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/07/01 04:26:48 by lrocca           ###   ########.fr        #
+#    Updated: 2021/07/01 20:11:30 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ FILES	=	main.c error.c prompt.c exec.c env.c path.c \
 			parsing/lexer.c \
 			parsing/redirection.c \
 			utils/cmd.c \
+			utils/env.c \
 			utils/ft_ismeta.c \
 			utils/ft_isname_start.c \
 			utils/getenv.c \
