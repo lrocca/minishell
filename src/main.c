@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 01:57:50 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/30 05:34:06 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 04:13:55 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ int	main(void)
 		// free cmd
 	}
 	ft_paths(NULL, PATHS_FREE);
-	builtin_exit();
+	builtin_exit(NULL);
 	return (g_ms.status);
 }

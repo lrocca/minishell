@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 03:48:21 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 04:14:05 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	cmd_exec(const t_cmd *head);
 char	builtin_pwd(void);
 char	builtin_export(t_list *av);
 char	builtin_env(void);
-char	builtin_exit(void);
+char	builtin_exit(t_list *av);
 char	builtin_echo(t_list *av);
 char	builtin_unset(t_list *av);
 

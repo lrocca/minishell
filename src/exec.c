@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 15:58:22 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 03:48:44 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/01 04:14:35 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	cmd_exec(const t_cmd *head)
 	else if (!ft_strcmp(head->av->content, "echo"))
 		g_ms.status = builtin_echo(head->av);
 	else if (!ft_strcmp(head->av->content, "exit"))
-		g_ms.status = builtin_exit();
+		g_ms.status = builtin_exit(head->av);
 	else if (!ft_strcmp(head->av->content, "unset"))
 		g_ms.status = builtin_unset(head->av);
 	else if (!ft_strcmp(head->av->content, "export"))
