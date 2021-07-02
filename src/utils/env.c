@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 20:28:16 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 20:30:18 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/02 03:37:41 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	ft_setenv(char *var)
 	if (!token || var[i] != '=')
 	{
 		free(token);
-		return (-1);
+		return (-(!!var[i]));
 	}
 	new = find_env(token);
 	if (new)
