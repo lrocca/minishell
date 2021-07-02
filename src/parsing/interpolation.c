@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 04:48:18 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/02 17:41:46 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/02 20:21:46 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	handle_dollar(char **buff, const char *line, int *i)
 	else
 	{
 		name = line_to_name(line, i);
+		(*i)--;
 		if (!name)
 			return (0);
 		var = ft_getenv(name);
