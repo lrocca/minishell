@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 15:58:22 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 04:26:17 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/02 19:52:47 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ static char	*find_bin(char *token, char **paths)
 
 int	cmd_exec_from_path(t_list *av)
 {
-	char	**paths;
+	char	**argv;
+	char	**envp;
 	char	*bin;
+	char	**paths;
 
 	if (ft_paths(&paths, PATHS_GET) < 0)
 	{
@@ -53,28 +55,73 @@ int	cmd_exec_from_path(t_list *av)
 		ft_error("command not found");
 		return (127);
 	}
-	ft_putendl_fd(bin, STDOUT_FILENO);
+	argv = list_to_array(av);
+	envp = list_to_array(g_ms.env);
+	execve(bin, argv, envp);
 	return (0);
 }
 
-void	cmd_exec(const t_cmd *head)
+void	ms_exec(t_cmd *cmd)
 {
-	if (ft_strchr(head->av->content, '='))
+	if (ft_strchr(cmd->av->content, '='))
 		;
-	else if (!ft_strcmp(head->av->content, "cd"))
-		g_ms.status = builtin_cd(head->av);
-	else if (!ft_strcmp(head->av->content, "pwd"))
+	else if (!ft_strcmp(cmd->av->content, "cd"))
+		g_ms.status = builtin_cd(cmd->av);
+	else if (!ft_strcmp(cmd->av->content, "pwd"))
 		g_ms.status = builtin_pwd();
-	else if (!ft_strcmp(head->av->content, "env"))
+	else if (!ft_strcmp(cmd->av->content, "env"))
 		g_ms.status = builtin_env();
-	else if (!ft_strcmp(head->av->content, "echo"))
-		g_ms.status = builtin_echo(head->av);
-	else if (!ft_strcmp(head->av->content, "exit"))
-		g_ms.status = builtin_exit(head->av);
-	else if (!ft_strcmp(head->av->content, "unset"))
-		g_ms.status = builtin_unset(head->av);
-	else if (!ft_strcmp(head->av->content, "export"))
-		g_ms.status = builtin_export(head->av);
+	else if (!ft_strcmp(cmd->av->content, "echo"))
+		g_ms.status = builtin_echo(cmd->av);
+	else if (!ft_strcmp(cmd->av->content, "exit"))
+		g_ms.status = builtin_exit(cmd->av);
+	else if (!ft_strcmp(cmd->av->content, "unset"))
+		g_ms.status = builtin_unset(cmd->av);
+	else if (!ft_strcmp(cmd->av->content, "export"))
+		g_ms.status = builtin_export(cmd->av);
 	else
-		g_ms.status = cmd_exec_from_path(head->av);
+		g_ms.status = cmd_exec_from_path(cmd->av);
+}
+
+void	ms_pipeline(void)
+{
+	t_cmd	*list;
+	int		prevpipe;
+	pid_t	childpid;
+
+	list = NULL;
+	ft_cmd(&list, CMD_GET);
+	if (!list)
+	{
+		g_ms.status = ERR_SYNTAX;
+		return ;
+	}
+	prevpipe = 0;
+	while (list)
+	{
+		prevpipe = ms_setfd(list, prevpipe);
+		if (prevpipe >= 0)
+		{
+			childpid = fork();
+			if (childpid < 0)
+				ft_error(strerror(errno));
+			else if (childpid == 0)
+			{
+				if (dup2(list->fdin, STDIN_FILENO) < 0 \
+				 || dup2(list->fdout, STDOUT_FILENO) < 0)
+					ft_error(strerror(errno));
+				ms_exec(list);
+				_exit(EXIT_SUCCESS);
+			}
+			else
+			{
+				wait(NULL);
+				if (list->fdin != STDIN_FILENO)
+					close(list->fdin);
+				if (list->fdout != STDOUT_FILENO)
+					close(list->fdout);
+			}
+		}
+		list = list->next;
+	}
 }

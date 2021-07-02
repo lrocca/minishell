@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/07/01 20:11:30 by lrocca           ###   ########.fr        #
+#    Updated: 2021/07/02 19:06:45 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LDFLAGS	+=	-lreadline
 
 NAME	=	minishell
 
-FILES	=	main.c error.c prompt.c exec.c env.c path.c signal.c \
+FILES	=	main.c error.c prompt.c exec.c env.c path.c signal.c fd.c \
 			builtin/cd.c \
 			builtin/echo.c \
 			builtin/env.c \
@@ -32,7 +32,9 @@ FILES	=	main.c error.c prompt.c exec.c env.c path.c signal.c \
 			utils/env.c \
 			utils/ft_ismeta.c \
 			utils/ft_isname_start.c \
-			utils/line_to_name.c
+			utils/line_to_name.c \
+			utils/list_to_array.c \
+			utils/redir.c
 
 SRCDIR	=	./src
 OBJDIR	=	./obj

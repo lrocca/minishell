@@ -13,6 +13,7 @@
 #ifndef MAIN_H
 # define MAIN_H
 
+# include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>
@@ -62,7 +63,7 @@ void	ft_error(char *err);
 /*
 ** lexer
 */
-t_cmd	*lexer(const char *line);
+t_cmd	*ms_lexer(const char *line);
 void	char_to_buff(char **buff, char new);
 char	*buff_to_word(char **buff, char quote);
 char	*line_to_word(const char *line, int *i);
@@ -73,6 +74,11 @@ char	*line_to_word(const char *line, int *i);
 void	handle_sigint(int signum);
 int		handle_redir(t_cmd **head, const char *line, int *i);
 int		handle_dollar(char **buff, const char *line, int *i);
+
+/*
+** redir
+*/
+void	ft_redirclear(t_redir *list);
 
 /*
 ** cmd
@@ -105,7 +111,8 @@ char	ft_paths(char ***paths, char opt);
 /*
 ** exec
 */
-void	cmd_exec(const t_cmd *head);
+void	ms_pipeline(void);
+int		ms_setfd(t_cmd *cmd, int prevpipe);
 
 /*
 ** builtins

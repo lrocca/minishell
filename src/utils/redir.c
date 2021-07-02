@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_to_array.c                                    :+:      :+:    :+:   */
+/*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/30 05:19:57 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/02 19:07:42 by lrocca           ###   ########.fr       */
+/*   Created: 2021/07/02 17:58:28 by lrocca            #+#    #+#             */
+/*   Updated: 2021/07/02 18:00:23 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-char	**list_to_array(t_list *head)
+void	ft_redirclear(t_redir *list)
 {
-	const int	len = ft_lstsize(head);
-	char		**ret;
-	int			i;
-	t_list		*curr;
+	t_redir	*prev;
 
-	ret = malloc(sizeof(char *) * (len + 1));
-	if (!ret)
-		return (NULL);
-	i = 0;
-	curr = head;
-	ret[len] = NULL;
-	while (curr && i < len)
+	while (list)
 	{
-		ret[i++] = curr->content;
-		curr = curr->next;
+		free(list->value);
+		prev = list;
+		list = list->next;
+		free(prev);
 	}
-	return (ret);
 }

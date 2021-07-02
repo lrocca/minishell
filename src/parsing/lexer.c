@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 03:12:19 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/30 05:36:29 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/02 20:22:59 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	*line_to_word(const char *line, int *i)
 	return (buff_to_word(&buff, quote));
 }
 
-t_cmd	*lexer(const char *line)
+t_cmd	*ms_lexer(const char *line)
 {
 	int		i;
 	t_cmd	*head;
@@ -131,6 +131,7 @@ t_cmd	*lexer(const char *line)
 				if (!head)
 				{
 					ft_error("syntax error (pipe left)");
+					ft_cmdclear(head);
 					return (NULL);
 				}
 				i++;
@@ -138,6 +139,7 @@ t_cmd	*lexer(const char *line)
 				if (!word)
 				{
 					ft_error("syntax error (pipe right)");
+					ft_cmdclear(head);
 					return (NULL);
 				}
 				ft_cmdadd_back(&head, ft_cmdnew());
@@ -147,6 +149,7 @@ t_cmd	*lexer(const char *line)
 				if (handle_redir(&head, line, &i) == -1)
 				{
 					ft_error("syntax error (redirection)");
+					ft_cmdclear(head);
 					return (NULL);
 				}
 		}
@@ -166,19 +169,4 @@ t_cmd	*lexer(const char *line)
 // 		bin = builtin or find path for token
 // 	elif av == NULL
 // 		ERROR!
-// }
-
-// main
-// {
-// 	line = prompt
-// 	fork
-// 		...child
-// 		lexer
-// 		parser
-// 		fd
-// 		if pipe
-// 			pipe
-// 			fork again
-// 		find exec
-// 		exec
 // }
