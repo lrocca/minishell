@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 04:48:18 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 19:58:40 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/02 17:41:46 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	handle_dollar(char **buff, const char *line, int *i)
 	char		*name;
 	int			j;
 
-	name = NULL;
 	var = NULL;
 	if (!(ft_isname_start(line[*i + 1]) || line[*i + 1] == '?'))
 		return (0);
@@ -31,11 +30,10 @@ int	handle_dollar(char **buff, const char *line, int *i)
 		if (!name)
 			return (0);
 		var = ft_getenv(name);
+		free(name);
 	}
 	j = 0;
-	if (var)
-		while (var[j])
-			char_to_buff(buff, var[j++]);
-	free(name);
+	while (var && var[j])
+		char_to_buff(buff, var[j++]);
 	return (0);
 }
