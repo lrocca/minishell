@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 18:22:38 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 19:44:51 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/02 19:16:31 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,45 @@ void	ft_cmdadd_back(t_cmd **head, t_cmd *new)
 		return ;
 	}
 	ft_cmdlast(*head)->next = new;
+}
+
+void	ft_cmdclear(t_cmd *list)
+{
+	t_cmd	*prev;
+
+	while (list)
+	{
+		ft_lstclear(&list->av, free);
+		ft_redirclear(list->in);
+		ft_redirclear(list->out);
+		prev = list;
+		list = list->next;
+		free(prev);
+	}
+}
+
+char	ft_cmd(t_cmd **cmd, char opt)
+{
+	static t_cmd	*ptr = NULL;
+
+	if (opt == CMD_GET)
+	{
+		if (!cmd)
+			return (-1);
+		*cmd = ptr;
+		return (0);
+	}
+	else if (opt == CMD_SET)
+	{
+		if (ptr || !cmd)
+			return (-1);
+		ptr = *cmd;
+		return (0);
+	}
+	else if (opt == CMD_FREE && ptr)
+	{
+		ft_cmdclear(ptr);
+		ptr = NULL;
+	}
+	return (0);
 }

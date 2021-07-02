@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 20:11:10 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/02 19:16:55 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
 
 # define PATHS_GET	0
 # define PATHS_FREE	1
+
+# define CMD_GET	0
+# define CMD_FREE	1
+# define CMD_SET	2
 
 # define ERR_CMD_NOT_FOUND	127
 # define ERR_SYNTAX			258
@@ -76,6 +80,8 @@ int		handle_dollar(char **buff, const char *line, int *i);
 t_cmd	*ft_cmdnew(void);
 t_cmd	*ft_cmdlast(t_cmd *head);
 void	ft_cmdadd_back(t_cmd **head, t_cmd *new);
+void	ft_cmdclear(t_cmd *list);
+char	ft_cmd(t_cmd **cmd, char opt);
 
 /*
 ** utils
