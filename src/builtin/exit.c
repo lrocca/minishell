@@ -6,20 +6,19 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 19:09:18 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 04:16:17 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/05 20:04:28 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 char	builtin_exit(t_list *av)
 {
-	int	status;
-
-	status = g_ms.status;
 	if (av && av->next)
-		status = ft_atoi(av->next->content);
+		g_ms.status = ft_atoi(av->next->content); // TODO check numeric argument
 	ft_putendl_fd("exit", STDOUT_FILENO);
-	exit(status); // should actually wait for other cmds
+	ft_lstclear(&g_ms.env, free);
+	ft_paths(NULL, PATHS_FREE);
+	exit(g_ms.status); //  should actually wait for other cmds
 	return (0);
 }

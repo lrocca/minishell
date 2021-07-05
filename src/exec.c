@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 15:58:22 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/02 19:52:47 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/05 20:03:07 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 static char	*find_bin(char *token, char **paths)
 {
@@ -49,7 +49,10 @@ int	cmd_exec_from_path(t_list *av)
 		ft_error("missing PATH in env");
 		return (1);
 	}
-	bin = find_bin(av->content, paths);
+	if (ft_strchr(av->content, '/'))
+		bin = av->content;
+	else
+		bin = find_bin(av->content, paths);
 	if (!bin)
 	{
 		ft_error("command not found");
@@ -61,7 +64,7 @@ int	cmd_exec_from_path(t_list *av)
 	return (0);
 }
 
-void	ms_exec(t_cmd *cmd)
+static char	ms_builtin(t_cmd *cmd)
 {
 	if (ft_strchr(cmd->av->content, '='))
 		;
@@ -80,14 +83,14 @@ void	ms_exec(t_cmd *cmd)
 	else if (!ft_strcmp(cmd->av->content, "export"))
 		g_ms.status = builtin_export(cmd->av);
 	else
-		g_ms.status = cmd_exec_from_path(cmd->av);
+		return (0);
+	return (1);
 }
 
 void	ms_pipeline(void)
 {
 	t_cmd	*list;
 	int		prevpipe;
-	pid_t	childpid;
 
 	list = NULL;
 	ft_cmd(&list, CMD_GET);
@@ -99,23 +102,22 @@ void	ms_pipeline(void)
 	prevpipe = 0;
 	while (list)
 	{
-		prevpipe = ms_setfd(list, prevpipe);
-		if (prevpipe >= 0)
+		if (ms_setfd(list) >= 0 && !ms_builtin(list))
 		{
-			childpid = fork();
-			if (childpid < 0)
+			g_ms.childpid = fork();
+			if (g_ms.childpid < 0)
 				ft_error(strerror(errno));
-			else if (childpid == 0)
+			else if (g_ms.childpid == 0)
 			{
 				if (dup2(list->fdin, STDIN_FILENO) < 0 \
 				 || dup2(list->fdout, STDOUT_FILENO) < 0)
 					ft_error(strerror(errno));
-				ms_exec(list);
-				_exit(EXIT_SUCCESS);
+				g_ms.status = cmd_exec_from_path(list->av);
+				exit(g_ms.status);
 			}
 			else
 			{
-				wait(NULL);
+				waitpid(g_ms.childpid, &g_ms.status, 0);
 				if (list->fdin != STDIN_FILENO)
 					close(list->fdin);
 				if (list->fdout != STDOUT_FILENO)

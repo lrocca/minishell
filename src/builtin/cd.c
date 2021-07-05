@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 04:19:17 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/01 20:30:38 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/05 20:04:52 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 #define SET_ENV_PWD		0
 #define SET_ENV_OLDPWD	1
@@ -40,13 +40,12 @@ char	builtin_cd(t_list *av)
 		path = av->content;
 	else
 		path = ft_getenv("HOME");
-	if (path)
-		if (chdir(path) < 0)
-		{
-			free(oldpwd);
-			ft_error(strerror(errno));
-			return (errno);
-		}
+	if (path && chdir(path) < 0)
+	{
+		free(oldpwd);
+		ft_error(strerror(errno));
+		return (errno);
+	}
 	set_pwd(oldpwd, SET_ENV_OLDPWD);
 	pwd = getcwd(NULL, 42);
 	set_pwd(pwd, SET_ENV_PWD);

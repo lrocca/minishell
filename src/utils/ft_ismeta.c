@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 20:12:00 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/27 01:07:20 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/03 03:34:52 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 char	ft_ismeta(const char c)
 {

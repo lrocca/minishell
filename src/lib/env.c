@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 20:28:16 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/02 03:37:41 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/03 03:34:52 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 static t_list	*find_env(char *name)
 {

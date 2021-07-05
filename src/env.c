@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/29 17:43:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/29 19:07:57 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/03 03:34:52 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 void	init_env(void)
 {

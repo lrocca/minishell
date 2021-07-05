@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 18:22:38 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/02 19:16:31 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/03 03:34:52 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 t_cmd	*ft_cmdnew(void)
 {

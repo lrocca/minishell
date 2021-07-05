@@ -6,18 +6,23 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/07/02 19:06:45 by lrocca           ###   ########.fr        #
+#    Updated: 2021/07/05 20:11:29 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC		=	gcc
 CFLAGS	?=	-g -Wall -Wextra -Werror
-IFLAGS	=	-I$(INCDIR) -I$(LIBDIR)
+IFLAGS	+=	-I$(INCDIR) -I$(LIBDIR)
 LDFLAGS	+=	-lreadline
 
 NAME	=	minishell
 
-FILES	=	main.c error.c prompt.c exec.c env.c path.c signal.c fd.c \
+FILES	=	main.c \
+			env.c \
+			exec.c \
+			fd.c \
+			prompt.c \
+			signal.c \
 			builtin/cd.c \
 			builtin/echo.c \
 			builtin/env.c \
@@ -25,16 +30,19 @@ FILES	=	main.c error.c prompt.c exec.c env.c path.c signal.c fd.c \
 			builtin/export.c \
 			builtin/pwd.c \
 			builtin/unset.c \
+			lib/cmd.c \
+			lib/env.c \
+			lib/error.c \
+			lib/path.c \
+			lib/redir.c \
+			parsing/buffer.c \
 			parsing/interpolation.c \
 			parsing/lexer.c \
+			parsing/line.c \
 			parsing/redirection.c \
-			utils/cmd.c \
-			utils/env.c \
 			utils/ft_ismeta.c \
 			utils/ft_isname_start.c \
-			utils/line_to_name.c \
 			utils/list_to_array.c \
-			utils/redir.c
 
 SRCDIR	=	./src
 OBJDIR	=	./obj

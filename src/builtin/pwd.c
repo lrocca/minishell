@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 19:09:38 by lrocca            #+#    #+#             */
-/*   Updated: 2021/06/24 19:09:56 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/03 03:34:52 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 char	builtin_pwd(void)
 {

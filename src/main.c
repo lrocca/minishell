@@ -6,11 +6,11 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 01:57:50 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/02 20:45:36 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/05 19:48:56 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "minishell.h"
 
 static void	ms_loop(void)
 {
@@ -29,6 +29,7 @@ static void	ms_loop(void)
 		ft_cmd(&head, CMD_SET);
 		ms_pipeline();
 		ft_cmd(NULL, CMD_FREE);
+		g_ms.childpid = 0;
 	}
 }
 
@@ -36,12 +37,12 @@ int	main(void)
 {
 	// if (RL_READLINE_VERSION < 0x0800)
 	// 	ft_putendl_fd("minishell: warn: outdated readline version", STDOUT_FILENO);
+	g_ms.status = 0;
+	g_ms.childpid = 0;
 	init_env();
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
-	g_ms.status = 0;
 	ms_loop();
-	ft_paths(NULL, PATHS_FREE);
 	builtin_exit(NULL);
 	return (g_ms.status);
 }

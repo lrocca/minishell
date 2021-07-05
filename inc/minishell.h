@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/02 19:16:55 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/03 03:35:26 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAIN_H
-# define MAIN_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # include <fcntl.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <stdio.h>
+# include <signal.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
@@ -52,13 +53,14 @@ typedef struct s_cmd {
 typedef struct s_ms {
 	int		status;
 	t_list	*env;
+	pid_t	childpid;
 }	t_ms;
 
 t_ms	g_ms;
 
 void	init_env(void);
 char	*ft_prompt(void);
-void	ft_error(char *err);
+char	ft_error(char *err);
 
 /*
 ** lexer
@@ -112,7 +114,7 @@ char	ft_paths(char ***paths, char opt);
 ** exec
 */
 void	ms_pipeline(void);
-int		ms_setfd(t_cmd *cmd, int prevpipe);
+int		ms_setfd(t_cmd *cmd);
 
 /*
 ** builtins
