@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/03 03:35:26 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/05 23:53:22 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ char	ft_cmd(t_cmd **cmd, char opt);
 /*
 ** utils
 */
+char	ft_isbuiltin(const char *s);
 char	ft_ismeta(const char c);
 char	ft_isname_start(const char c);
 char	*line_to_name(const char *line, int *i);
@@ -114,6 +115,9 @@ char	ft_paths(char ***paths, char opt);
 ** exec
 */
 void	ms_pipeline(void);
+void	ms_single_builtin(t_cmd *cmd);
+char	ms_builtin(t_cmd *cmd);
+int		cmd_exec_from_path(t_list *av);
 int		ms_setfd(t_cmd *cmd);
 
 /*

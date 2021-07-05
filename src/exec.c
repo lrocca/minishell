@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 15:58:22 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/05 20:03:07 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 00:19:15 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,11 @@ int	cmd_exec_from_path(t_list *av)
 	argv = list_to_array(av);
 	envp = list_to_array(g_ms.env);
 	execve(bin, argv, envp);
-	return (0);
+	ft_error(strerror(errno));
+	return (errno);
 }
 
-static char	ms_builtin(t_cmd *cmd)
+char	ms_builtin(t_cmd *cmd)
 {
 	if (ft_strchr(cmd->av->content, '='))
 		;
@@ -87,43 +88,21 @@ static char	ms_builtin(t_cmd *cmd)
 	return (1);
 }
 
-void	ms_pipeline(void)
+void	ms_single_builtin(t_cmd *cmd)
 {
-	t_cmd	*list;
-	int		prevpipe;
+	int	old_stdin;
+	int	old_stdout;
 
-	list = NULL;
-	ft_cmd(&list, CMD_GET);
-	if (!list)
-	{
-		g_ms.status = ERR_SYNTAX;
+	if (ms_setfd(cmd))
 		return ;
-	}
-	prevpipe = 0;
-	while (list)
-	{
-		if (ms_setfd(list) >= 0 && !ms_builtin(list))
-		{
-			g_ms.childpid = fork();
-			if (g_ms.childpid < 0)
-				ft_error(strerror(errno));
-			else if (g_ms.childpid == 0)
-			{
-				if (dup2(list->fdin, STDIN_FILENO) < 0 \
-				 || dup2(list->fdout, STDOUT_FILENO) < 0)
-					ft_error(strerror(errno));
-				g_ms.status = cmd_exec_from_path(list->av);
-				exit(g_ms.status);
-			}
-			else
-			{
-				waitpid(g_ms.childpid, &g_ms.status, 0);
-				if (list->fdin != STDIN_FILENO)
-					close(list->fdin);
-				if (list->fdout != STDOUT_FILENO)
-					close(list->fdout);
-			}
-		}
-		list = list->next;
-	}
+	old_stdin = dup(STDIN_FILENO);
+	old_stdout = dup(STDOUT_FILENO);
+	if ((cmd->fdin != STDIN_FILENO && dup2(cmd->fdin, STDIN_FILENO) < 0) \
+	|| (cmd->fdout != STDOUT_FILENO && dup2(cmd->fdout, STDOUT_FILENO) < 0))
+		return ((void)ft_error(strerror(errno)));
+	ms_builtin(cmd);
+	close(cmd->fdin);
+	close(cmd->fdout);
+	dup2(old_stdin, STDIN_FILENO);
+	dup2(old_stdout, STDOUT_FILENO);
 }

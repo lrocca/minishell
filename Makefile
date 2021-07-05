@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/07/05 20:11:29 by lrocca           ###   ########.fr        #
+#    Updated: 2021/07/05 23:36:28 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ FILES	=	main.c \
 			env.c \
 			exec.c \
 			fd.c \
+			pipeline.c \
 			prompt.c \
 			signal.c \
 			builtin/cd.c \
@@ -40,6 +41,7 @@ FILES	=	main.c \
 			parsing/lexer.c \
 			parsing/line.c \
 			parsing/redirection.c \
+			utils/ft_isbuiltin.c \
 			utils/ft_ismeta.c \
 			utils/ft_isname_start.c \
 			utils/list_to_array.c \
