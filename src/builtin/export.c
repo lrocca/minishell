@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 19:08:55 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 17:48:03 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 19:01:22 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ static void	print_var(char *var)
 	char	**split;
 	int		i;
 
-	ft_putstr_fd("declare -x ", STDOUT_FILENO);
 	split = ft_split(var, '=');
-	if (!split || !split[0] || !split[1])
+	if (!split)
 		return ((void)ft_error("ft_split", "error while splitting vars"));
+	ft_putstr_fd("declare -x ", STDOUT_FILENO);
 	ft_putstr_fd(split[0], STDOUT_FILENO);
 	ft_putstr_fd("=\"", STDOUT_FILENO);
 	ft_putstr_fd(split[1], STDOUT_FILENO);
