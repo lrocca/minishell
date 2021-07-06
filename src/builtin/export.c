@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 19:08:55 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 02:13:27 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 03:09:46 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	print_var(char *var)
 	ft_putendl_fd(var, STDOUT_FILENO);
 }
 
-static char	print_env(void)
+/* static char	print_env(void)
 {
 	t_list	*min;
 	t_list	*curr;
@@ -54,6 +54,12 @@ static char	print_env(void)
 		print_var(min->content);
 		prev = min;
 	}
+	return (0);
+} */
+
+static char	print_env(void)
+{
+	print_var(ft_getenv("USER"));
 	return (0);
 }
 

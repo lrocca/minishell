@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 03:40:49 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/03 03:49:22 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 03:05:27 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,15 @@ static void	handle_quotes(char **buff, char *quote, char new)
 		char_to_buff(buff, new);
 }
 
+static char	skip_spaces(const char *line, int *i)
+{
+	if (!ft_isspace(line[*i]))
+		return (0);
+	while (ft_isspace(line[*i]))
+		(*i)++;
+	return (1);
+}
+
 char	*line_to_word(const char *line, int *i)
 {
 	char	*buff;
@@ -33,12 +42,8 @@ char	*line_to_word(const char *line, int *i)
 		return (NULL);
 	while (line[*i])
 	{
-		if (!buff && !quote && ft_isspace(line[*i]))
-		{
-			while (ft_isspace(line[*i]))
-				(*i)++;
+		if (!buff && !quote && skip_spaces(line, i))
 			continue ;
-		}
 		if (!quote && (ft_ismeta(line[*i]) || (buff && ft_isspace(line[*i]))))
 			break ;
 		else if (line[*i] == '\'' || line[*i] == '\"')

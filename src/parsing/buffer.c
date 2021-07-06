@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 03:27:58 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/03 03:41:14 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 02:36:51 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ char	*buff_to_word(char **buff, char quote)
 	{
 		free(*buff);
 		*buff = NULL;
-		// maybe throw unclosed quote error
 	}
 	if (!*buff)
 		return (NULL);

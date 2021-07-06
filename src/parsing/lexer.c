@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 03:12:19 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 01:26:31 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 03:09:14 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static t_cmd	*lexer_error(t_cmd *head, const char c)
 	return (NULL);
 }
 
-void	word_to_av(t_cmd **head, char *word)
+static void	word_to_av(t_cmd **head, char *word)
 {
 	t_cmd	*cmd;
 
@@ -47,6 +47,27 @@ void	word_to_av(t_cmd **head, char *word)
 	else
 		cmd = ft_cmdlast(*head);
 	ft_lstadd_back(&cmd->av, ft_lstnew(word));
+}
+
+static char	handle_pipe(t_cmd **head, const char *line, int *i)
+{
+	char	*word;
+
+	if (!head)
+	{
+		lexer_error(*head, line[*i]);
+		return (-1);
+	}
+	i++;
+	word = line_to_word(line, i);
+	if (!word)
+	{
+		lexer_error(*head, line[*i]);
+		return (-1);
+	}
+	ft_cmdadd_back(head, ft_cmdnew());
+	word_to_av(head, word);
+	return (0);
 }
 
 t_cmd	*ms_lexer(const char *line)
@@ -69,29 +90,11 @@ t_cmd	*ms_lexer(const char *line)
 			break ;
 		else if (line[i] == '|')
 		{
-			if (!head)
-				return (lexer_error(head, line[i]));
-			i++;
-			word = line_to_word(line, &i);
-			if (!word)
-				return (lexer_error(head, line[i]));
-			ft_cmdadd_back(&head, ft_cmdnew());
-			word_to_av(&head, word);
+			if (handle_pipe(&head, line, &i) != 0)
+				return (NULL);
 		}
 		else if (handle_redir(&head, line, &i) == -1)
 			return (lexer_error(head, line[i]));
 	}
 	return (head);
 }
-
-// parser
-// {
-// 	if token contains equal sign & bin == NULL
-// 		ignore
-// 	elif redirection
-// 		set filename/delimiter & options
-// 	elif bin == NULL
-// 		bin = builtin or find path for token
-// 	elif av == NULL
-// 		ERROR!
-// }

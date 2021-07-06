@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 01:57:50 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/05 19:48:56 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 02:28:42 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ static void	ms_loop(void)
 
 int	main(void)
 {
-	// if (RL_READLINE_VERSION < 0x0800)
-	// 	ft_putendl_fd("minishell: warn: outdated readline version", STDOUT_FILENO);
+	if (RL_READLINE_VERSION < 0x0800)
+		ft_putendl_fd("minishell: old `readline\' version", STDOUT_FILENO);
 	g_ms.status = 0;
 	g_ms.childpid = 0;
 	init_env();
