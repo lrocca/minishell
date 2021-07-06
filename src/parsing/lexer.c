@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 03:12:19 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 03:09:14 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 11:44:34 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ static char	handle_pipe(t_cmd **head, const char *line, int *i)
 {
 	char	*word;
 
-	if (!head)
+	if (!*head)
 	{
 		lexer_error(*head, line[*i]);
 		return (-1);
 	}
-	i++;
+	(*i)++;
 	word = line_to_word(line, i);
 	if (!word)
 	{
@@ -90,7 +90,7 @@ t_cmd	*ms_lexer(const char *line)
 			break ;
 		else if (line[i] == '|')
 		{
-			if (handle_pipe(&head, line, &i) != 0)
+			if (handle_pipe(&head, line, &i) == -1)
 				return (NULL);
 		}
 		else if (handle_redir(&head, line, &i) == -1)
