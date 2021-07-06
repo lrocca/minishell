@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 19:08:55 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/03 03:34:52 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 02:13:27 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,7 @@ char	builtin_export(t_list *av)
 	while (av)
 	{
 		if (ft_setenv(av->content) < 0)
-		{
-			ft_error("export: invalid identifier");
-			return (1);
-		}
+			return (-ft_error("export: invalid identifier", av->content));
 		av = av->next;
 	}
 	return (0);

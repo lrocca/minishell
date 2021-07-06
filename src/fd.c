@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/02 18:12:33 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/03 03:34:52 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 02:19:24 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,28 +37,26 @@ static char	set_fdin(t_cmd *cmd)
 	int		fd;
 	t_redir	*curr;
 
-	if (cmd->in)
+	if (!cmd->in)
+		return (0);
+	curr = cmd->in;
+	while (curr)
 	{
 		if (cmd->fdin != STDIN_FILENO)
 			close(cmd->fdin);
-		curr = cmd->in;
-		while (curr)
+		if (curr->type)
+			fd = ms_heredoc(curr->value);
+		else
+			fd = open(curr->value, O_RDONLY);
+		if (fd < 0)
 		{
 			if (curr->type)
-				fd = ms_heredoc(curr->value);
-			else
-				fd = open(curr->value, O_RDONLY);
-			if (fd < 0)
-			{
-				ft_error(strerror(errno));
-				return (-1);
-			}
-			if (curr->next)
-				close(fd);
-			curr = curr->next;
+				return (ft_error("heredoc", strerror(errno)));
+			return (ft_error(curr->value, strerror(errno)));
 		}
-		cmd->fdin = fd;
+		curr = curr->next;
 	}
+	cmd->fdin = fd;
 	return (0);
 }
 
@@ -67,10 +65,7 @@ static char	ft_pipe(t_cmd *cmd)
 	int		pipefd[2];
 
 	if (pipe(pipefd) < 0)
-	{
-		ft_error("pipe failed");
-		return (-1);
-	}
+		return (ft_error("pipe", strerror(errno)));
 	if (cmd->fdout != STDOUT_FILENO)
 		close(cmd->fdout);
 	cmd->fdout = pipefd[1];
@@ -96,10 +91,7 @@ static char	set_fdout(t_cmd *cmd)
 			flags |= O_TRUNC;
 		fd = open(curr->value, flags, S_IRUSR | S_IWUSR);
 		if (fd < 0)
-		{
-			ft_error(strerror(errno));
-			return (-1);
-		}
+			return (ft_error(curr->value, strerror(errno)));
 		if (cmd->fdout != STDOUT_FILENO)
 			close(cmd->fdout);
 		cmd->fdout = fd;

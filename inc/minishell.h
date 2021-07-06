@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/05 23:53:22 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 01:04:36 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ t_ms	g_ms;
 
 void	init_env(void);
 char	*ft_prompt(void);
-char	ft_error(char *err);
+char	ft_error(const char *s1, const char *s2);
 
 /*
 ** lexer

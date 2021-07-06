@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 19:00:25 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/05 19:42:22 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 00:36:44 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handle_sigint(int signum)
 	if (g_ms.childpid)
 	{
 		if (kill(g_ms.childpid, SIGINT) < 0)
-			ft_error(strerror(errno));
+			ft_error("kill", strerror(errno));
 		else
 			g_ms.status = 130;
 	}
@@ -28,5 +28,4 @@ void	handle_sigint(int signum)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	return ;
 }

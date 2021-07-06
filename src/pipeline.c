@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 23:30:05 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/05 23:52:59 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 01:45:25 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,27 @@
 
 static void	ms_child(t_cmd *cmd)
 {
-	g_ms.childpid = fork();
-	if (g_ms.childpid < 0)
-		ft_error(strerror(errno));
-	else if (g_ms.childpid == 0)
+	if (cmd->av)
 	{
-		if (dup2(cmd->fdin, STDIN_FILENO) < 0 \
-			|| dup2(cmd->fdout, STDOUT_FILENO) < 0)
-			ft_error(strerror(errno));
-		if (!ms_builtin(cmd))
-			g_ms.status = cmd_exec_from_path(cmd->av);
-		exit(g_ms.status);
+		g_ms.childpid = fork();
+		if (g_ms.childpid < 0)
+			ft_error("fork", strerror(errno));
+		else if (g_ms.childpid == 0)
+		{
+			if (dup2(cmd->fdin, STDIN_FILENO) < 0 \
+				|| dup2(cmd->fdout, STDOUT_FILENO) < 0)
+				ft_error("dup2", strerror(errno));
+			if (!ms_builtin(cmd))
+				g_ms.status = cmd_exec_from_path(cmd->av);
+			exit(g_ms.status);
+		}
+		else
+			waitpid(g_ms.childpid, &g_ms.status, 0);
 	}
-	else
-	{
-		waitpid(g_ms.childpid, &g_ms.status, 0);
-		if (cmd->fdin != STDIN_FILENO)
-			close(cmd->fdin);
-		if (cmd->fdout != STDOUT_FILENO)
-			close(cmd->fdout);
-	}
+	if (cmd->fdin != STDIN_FILENO)
+		close(cmd->fdin);
+	if (cmd->fdout != STDOUT_FILENO)
+		close(cmd->fdout);
 }
 
 void	ms_pipeline(void)
@@ -47,7 +48,7 @@ void	ms_pipeline(void)
 		g_ms.status = ERR_SYNTAX;
 		return ;
 	}
-	if (!cmd->next && ft_isbuiltin(cmd->av->content))
+	if (!cmd->next && cmd->av && ft_isbuiltin(cmd->av->content))
 		return (ms_single_builtin(cmd));
 	while (cmd)
 	{

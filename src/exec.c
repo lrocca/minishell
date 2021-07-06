@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 15:58:22 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 00:19:15 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 02:16:02 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,20 @@ int	cmd_exec_from_path(t_list *av)
 	char	**paths;
 
 	if (ft_paths(&paths, PATHS_GET) < 0)
-	{
-		ft_error("missing PATH in env");
-		return (1);
-	}
+		return (-ft_error("missing PATH in env", NULL));
 	if (ft_strchr(av->content, '/'))
 		bin = av->content;
 	else
 		bin = find_bin(av->content, paths);
 	if (!bin)
 	{
-		ft_error("command not found");
+		ft_error(av->content, "command not found");
 		return (127);
 	}
 	argv = list_to_array(av);
 	envp = list_to_array(g_ms.env);
 	execve(bin, argv, envp);
-	ft_error(strerror(errno));
+	ft_error("execve", strerror(errno));
 	return (errno);
 }
 
@@ -99,7 +96,7 @@ void	ms_single_builtin(t_cmd *cmd)
 	old_stdout = dup(STDOUT_FILENO);
 	if ((cmd->fdin != STDIN_FILENO && dup2(cmd->fdin, STDIN_FILENO) < 0) \
 	|| (cmd->fdout != STDOUT_FILENO && dup2(cmd->fdout, STDOUT_FILENO) < 0))
-		return ((void)ft_error(strerror(errno)));
+		return ((void)ft_error("dup2", strerror(errno)));
 	ms_builtin(cmd);
 	close(cmd->fdin);
 	close(cmd->fdout);

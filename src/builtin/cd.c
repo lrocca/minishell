@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/01 04:19:17 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/05 20:04:52 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 00:37:07 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	builtin_cd(t_list *av)
 	if (path && chdir(path) < 0)
 	{
 		free(oldpwd);
-		ft_error(strerror(errno));
+		ft_error("chdir", strerror(errno));
 		return (errno);
 	}
 	set_pwd(oldpwd, SET_ENV_OLDPWD);
