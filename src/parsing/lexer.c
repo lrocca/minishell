@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 03:12:19 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 11:44:34 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 15:53:37 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,16 @@ static char	handle_pipe(t_cmd **head, const char *line, int *i)
 	}
 	(*i)++;
 	word = line_to_word(line, i);
-	if (!word)
+	if (!word && !line[*i])
 	{
 		lexer_error(*head, line[*i]);
 		return (-1);
 	}
 	ft_cmdadd_back(head, ft_cmdnew());
-	word_to_av(head, word);
+	if ((line[*i] == '<' || line[*i] == '>') && handle_redir(head, line, i) < 0)
+		return (-1);
+	else
+		word_to_av(head, word);
 	return (0);
 }
 
