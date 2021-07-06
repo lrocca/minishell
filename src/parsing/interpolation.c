@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/30 04:48:18 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/03 03:34:52 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 01:05:01 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	handle_dollar(char **buff, const char *line, int *i)
 		return (0);
 	(*i)++;
 	if (line[*i] == '?')
-		var = ft_itoa(g_ms.status);
+		var = ft_itoa(g_ms.status % 255);
 	else
 	{
 		name = line_to_name(line, i);
