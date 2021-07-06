@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 15:58:22 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 02:16:02 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 12:31:18 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ void	ms_single_builtin(t_cmd *cmd)
 		return ;
 	old_stdin = dup(STDIN_FILENO);
 	old_stdout = dup(STDOUT_FILENO);
-	if ((cmd->fdin != STDIN_FILENO && dup2(cmd->fdin, STDIN_FILENO) < 0) \
-	|| (cmd->fdout != STDOUT_FILENO && dup2(cmd->fdout, STDOUT_FILENO) < 0))
+	if (dup2(cmd->fdin, STDIN_FILENO) < 0 \
+		|| dup2(cmd->fdout, STDOUT_FILENO) < 0)
 		return ((void)ft_error("dup2", strerror(errno)));
 	ms_builtin(cmd);
 	close(cmd->fdin);
