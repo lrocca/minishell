@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 19:09:18 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 02:33:29 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/06 11:59:19 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ char	builtin_exit(t_list *av)
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	ft_lstclear(&g_ms.env, free);
 	ft_paths(NULL, PATHS_FREE);
+	ft_cmd(NULL, CMD_FREE);
 	exit(g_ms.status);
 	return (0);
 }
