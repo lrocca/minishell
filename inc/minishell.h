@@ -36,24 +36,24 @@
 
 typedef struct s_redir
 {
+	struct s_redir	*next;
 	char			*value;
 	char			type;
-	struct s_redir	*next;
 }	t_redir;
 
 typedef struct s_cmd {
+	struct s_cmd	*next;
 	t_list			*av;
 	t_redir			*in;
 	t_redir			*out;
 	int				fdin;
 	int				fdout;
-	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_ms {
-	int		status;
 	t_list	*env;
 	pid_t	childpid;
+	int		status;
 }	t_ms;
 
 t_ms	g_ms;
