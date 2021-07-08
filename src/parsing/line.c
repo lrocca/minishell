@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 03:40:49 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 05:52:27 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 07:32:07 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	handle_wildcard(char **buff, char *quote, const char *line, int *i)
 	ft_wildcard(buff_to_word(buff, 0));
 }
 
-char	*line_to_word(const char *line, int *i)
+char	*line_to_word(const char *line, int *i, char opt)
 {
 	char	*buff;
 	char	quote;
@@ -74,7 +74,7 @@ char	*line_to_word(const char *line, int *i)
 			continue ;
 		if (!quote && (ft_ismeta(line[*i]) || (buff && ft_isspace(line[*i]))))
 			break ;
-		else if (!quote && line[*i] == '*')
+		else if (opt == WILDCARD_ENABLED && line[*i] == '*' && !quote)
 			handle_wildcard(&buff, &quote, line, i);
 		else if (line[*i] == '$' && quote != '\'')
 			handle_dollar(&buff, line, i);

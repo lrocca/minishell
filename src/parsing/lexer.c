@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 03:12:19 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 06:33:03 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 07:35:39 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static char	handle_pipe(const char *line, int *i)
 	if (ft_cmd(&head, CMD_GET) || !head)
 		return (lexer_error(line[*i]));
 	(*i)++;
-	word = line_to_word(line, i);
+	word = line_to_word(line, i, WILDCARD_DISABLED);
 	if (!word && !line[*i])
 		return (lexer_error(line[*i]));
 	ft_cmdadd_back(ft_cmdnew());
@@ -76,15 +76,12 @@ void	ms_lexer(const char *line)
 	char	*word;
 
 	i = 0;
+	word = line_to_word(line, &i, WILDCARD_DISABLED);
 	while (1)
 	{
-		word = line_to_word(line, &i);
 		if (word)
-		{
 			word_to_av(word);
-			continue ;
-		}
-		if (!line[i])
+		else if (!line[i])
 			break ;
 		else if (line[i] == '|')
 		{
@@ -93,5 +90,6 @@ void	ms_lexer(const char *line)
 		}
 		else if (handle_redir(line, &i) == -1)
 			return ((void)lexer_error(line[i]));
+		word = line_to_word(line, &i, WILDCARD_ENABLED);
 	}
 }

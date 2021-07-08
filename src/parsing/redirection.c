@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 20:12:30 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 06:21:51 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 07:19:33 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	handle_redir(const char *line, int *i)
 
 	type = set_redir_type(line[*i], line[*i + 1]);
 	*i += 1 + (type > '>');
-	word = line_to_word(line, i);
+	word = line_to_word(line, i, WILDCARD_DISABLED);
 	if (!word)
 		return (-1);
 	new = ft_redirnew(word, type > '>');

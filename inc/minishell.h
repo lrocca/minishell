@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 07:07:46 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 07:24:01 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@
 # define ERR_SIGINT			130
 # define ERR_SYNTAX			258
 
+# define WILDCARD_ENABLED		0
+# define WILDCARD_DISABLED		1
 # define WILDCARD_PLACEHOLDER	'\a'
 
 typedef struct s_redir
@@ -72,7 +74,7 @@ char	ft_error(const char *s1, const char *s2);
 void	ms_lexer(const char *line);
 void	char_to_buff(char **buff, char new);
 char	*buff_to_word(char **buff, char quote);
-char	*line_to_word(const char *line, int *i);
+char	*line_to_word(const char *line, int *i, char opt);
 void	word_to_av(char *word);
 
 /*
