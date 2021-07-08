@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 01:57:50 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 06:36:58 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 18:59:33 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ static void	ms_loop(void)
 		if (line == NULL)
 			break ;
 		else if (ft_strlen(line) == 0)
+		{
+			free(line);
 			continue ;
+		}
 		add_history(line);
 		ms_lexer(line);
 		ms_pipeline();
