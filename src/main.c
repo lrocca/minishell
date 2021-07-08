@@ -28,6 +28,7 @@ static void	ms_loop(void)
 		ms_pipeline();
 		ft_cmd(NULL, CMD_FREE);
 		g_ms.childpid = 0;
+		free(line);
 	}
 }
 
