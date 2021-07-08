@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 20:12:30 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/03 03:34:52 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 06:21:51 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,19 @@ static t_redir	*ft_redirnew(char *word, char type)
 	return (new);
 }
 
-void	ft_rediradd_back(t_cmd **head, t_redir *new, char type)
+static void	ft_rediradd_back(t_redir *new, char type)
 {
 	t_cmd	*cmd;
 	t_redir	*last;
 
-	if (!*head)
+	ft_cmd(&cmd, CMD_GET);
+	if (!cmd)
 	{
 		cmd = ft_cmdnew();
-		*head = cmd;
+		ft_cmd(&cmd, CMD_SET);
 	}
 	else
-		cmd = ft_cmdlast(*head);
+		cmd = ft_cmdlast(cmd);
 	if (type % '<' == 0 && !cmd->in)
 		cmd->in = new;
 	else if (type % '>' == 0 && !cmd->out)
@@ -61,7 +62,7 @@ void	ft_rediradd_back(t_cmd **head, t_redir *new, char type)
 	}
 }
 
-int	handle_redir(t_cmd **head, const char *line, int *i)
+int	handle_redir(const char *line, int *i)
 {
 	char	type;
 	char	*word;
@@ -73,6 +74,6 @@ int	handle_redir(t_cmd **head, const char *line, int *i)
 	if (!word)
 		return (-1);
 	new = ft_redirnew(word, type > '>');
-	ft_rediradd_back(head, new, type);
+	ft_rediradd_back(new, type);
 	return (0);
 }

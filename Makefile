@@ -6,7 +6,7 @@
 #    By: lrocca <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/24 01:29:56 by lrocca            #+#    #+#              #
-#    Updated: 2021/07/06 18:50:25 by lrocca           ###   ########.fr        #
+#    Updated: 2021/07/08 05:40:43 by lrocca           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ FILES	=	main.c \
 			parsing/lexer.c \
 			parsing/line.c \
 			parsing/redirection.c \
+			parsing/wildcard.c \
 			utils/ft_isbuiltin.c \
 			utils/ft_ismeta.c \
 			utils/ft_isname_start.c \

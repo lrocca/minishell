@@ -6,13 +6,13 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 03:12:19 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 17:35:23 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 06:33:03 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_cmd	*lexer_error(t_cmd *head, const char c)
+static char	lexer_error(const char c)
 {
 	char	near[3];
 	char	*error;
@@ -31,74 +31,67 @@ static t_cmd	*lexer_error(t_cmd *head, const char c)
 	ft_error(error, NULL);
 	free(syntax);
 	free(error);
-	ft_cmdclear(head);
-	return (NULL);
+	ft_cmd(NULL, CMD_FREE);
+	return (-1);
 }
 
-static void	word_to_av(t_cmd **head, char *word)
+void	word_to_av(char *word)
 {
 	t_cmd	*cmd;
 
-	if (!*head)
+	ft_cmd(&cmd, CMD_GET);
+	if (!cmd)
 	{
 		cmd = ft_cmdnew();
-		*head = cmd;
+		ft_cmd(&cmd, CMD_SET);
 	}
 	else
-		cmd = ft_cmdlast(*head);
+		cmd = ft_cmdlast(cmd);
 	ft_lstadd_back(&cmd->av, ft_lstnew(word));
 }
 
-static char	handle_pipe(t_cmd **head, const char *line, int *i)
+static char	handle_pipe(const char *line, int *i)
 {
 	char	*word;
+	t_cmd	*head;
 
-	if (!*head)
-	{
-		lexer_error(*head, line[*i]);
-		return (-1);
-	}
+	if (ft_cmd(&head, CMD_GET) || !head)
+		return (lexer_error(line[*i]));
 	(*i)++;
 	word = line_to_word(line, i);
 	if (!word && !line[*i])
-	{
-		lexer_error(*head, line[*i]);
-		return (-1);
-	}
-	ft_cmdadd_back(head, ft_cmdnew());
+		return (lexer_error(line[*i]));
+	ft_cmdadd_back(ft_cmdnew());
 	if (word)
-		word_to_av(head, word);
+		word_to_av(word);
 	else if (line[*i] == '<' || line[*i] == '>')
-		if (handle_redir(head, line, i) < 0)
+		if (handle_redir(line, i) < 0)
 			return (-1);
 	return (0);
 }
 
-t_cmd	*ms_lexer(const char *line)
+void	ms_lexer(const char *line)
 {
 	int		i;
-	t_cmd	*head;
 	char	*word;
 
 	i = 0;
-	head = NULL;
 	while (1)
 	{
 		word = line_to_word(line, &i);
 		if (word)
 		{
-			word_to_av(&head, word);
+			word_to_av(word);
 			continue ;
 		}
 		if (!line[i])
 			break ;
 		else if (line[i] == '|')
 		{
-			if (handle_pipe(&head, line, &i) == -1)
-				return (NULL);
+			if (handle_pipe(line, &i) == -1)
+				return ;
 		}
-		else if (handle_redir(&head, line, &i) == -1)
-			return (lexer_error(head, line[i]));
+		else if (handle_redir(line, &i) == -1)
+			return ((void)lexer_error(line[i]));
 	}
-	return (head);
 }

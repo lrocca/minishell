@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 01:57:50 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 02:28:42 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 06:36:58 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void	ms_loop(void)
 {
 	char	*line;
-	t_cmd	*head;
 
 	while (1)
 	{
@@ -25,8 +24,7 @@ static void	ms_loop(void)
 		else if (ft_strlen(line) == 0)
 			continue ;
 		add_history(line);
-		head = ms_lexer(line);
-		ft_cmd(&head, CMD_SET);
+		ms_lexer(line);
 		ms_pipeline();
 		ft_cmd(NULL, CMD_FREE);
 		g_ms.childpid = 0;

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 03:40:49 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 13:39:15 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 05:52:27 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,29 @@ static char	skip_spaces(const char *line, int *i)
 	return (1);
 }
 
+static void	handle_wildcard(char **buff, char *quote, const char *line, int *i)
+{
+	char_to_buff(buff, WILDCARD_PLACEHOLDER);
+	(*i)++;
+	while (line[*i])
+	{
+		if (!*buff && !*quote && skip_spaces(line, i))
+			continue ;
+		if (!*quote && (ft_ismeta(line[*i]) || (*buff && ft_isspace(line[*i]))))
+			break ;
+		if (!*quote && line[*i] == '*')
+			char_to_buff(buff, WILDCARD_PLACEHOLDER);
+		else if (line[*i] == '\'' || line[*i] == '\"')
+			handle_quotes(buff, quote, line[*i], line[*i + 1]);
+		else if (line[*i] == '$' && *quote != '\'')
+			handle_dollar(buff, line, i);
+		else
+			char_to_buff(buff, line[*i]);
+		(*i)++;
+	}
+	ft_wildcard(buff_to_word(buff, 0));
+}
+
 char	*line_to_word(const char *line, int *i)
 {
 	char	*buff;
@@ -51,15 +74,15 @@ char	*line_to_word(const char *line, int *i)
 			continue ;
 		if (!quote && (ft_ismeta(line[*i]) || (buff && ft_isspace(line[*i]))))
 			break ;
-		else if (line[*i] == '\'' || line[*i] == '\"')
-		{
-			if (handle_quotes(&buff, &quote, line[*i], line[*i + 1]))
-				return (ft_strdup(""));
-		}
+		else if (!quote && line[*i] == '*')
+			handle_wildcard(&buff, &quote, line, i);
 		else if (line[*i] == '$' && quote != '\'')
 			handle_dollar(&buff, line, i);
-		else
+		else if (line[*i] != '\'' && line[*i] != '\"')
 			char_to_buff(&buff, line[*i]);
+		else
+			if (handle_quotes(&buff, &quote, line[*i], line[*i + 1]))
+				return (ft_strdup(""));
 		(*i)++;
 	}
 	return (buff_to_word(&buff, quote));

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/05 23:30:05 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 01:45:25 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 06:37:09 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ms_pipeline(void)
 {
 	t_cmd	*cmd;
 
-	cmd = NULL;
 	ft_cmd(&cmd, CMD_GET);
 	if (!cmd)
 	{

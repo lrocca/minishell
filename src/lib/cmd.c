@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 18:22:38 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/03 03:34:52 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 06:28:11 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,17 @@ t_cmd	*ft_cmdlast(t_cmd *head)
 	return (head);
 }
 
-void	ft_cmdadd_back(t_cmd **head, t_cmd *new)
+void	ft_cmdadd_back(t_cmd *new)
 {
-	if (!*head)
+	t_cmd	*head;
+
+	ft_cmd(&head, CMD_GET);
+	if (!head)
 	{
-		*head = new;
+		ft_cmd(&new, CMD_SET);
 		return ;
 	}
-	ft_cmdlast(*head)->next = new;
+	ft_cmdlast(head)->next = new;
 }
 
 void	ft_cmdclear(t_cmd *list)

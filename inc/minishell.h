@@ -6,13 +6,14 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 01:04:36 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 07:07:46 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <dirent.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <readline/history.h>
@@ -34,6 +35,8 @@
 # define ERR_CMD_NOT_FOUND	127
 # define ERR_SIGINT			130
 # define ERR_SYNTAX			258
+
+# define WILDCARD_PLACEHOLDER	'\a'
 
 typedef struct s_redir
 {
@@ -66,17 +69,23 @@ char	ft_error(const char *s1, const char *s2);
 /*
 ** lexer
 */
-t_cmd	*ms_lexer(const char *line);
+void	ms_lexer(const char *line);
 void	char_to_buff(char **buff, char new);
 char	*buff_to_word(char **buff, char quote);
 char	*line_to_word(const char *line, int *i);
+void	word_to_av(char *word);
 
 /*
 ** handlers
 */
 void	handle_sigint(int signum);
-int		handle_redir(t_cmd **head, const char *line, int *i);
+int		handle_redir(const char *line, int *i);
 int		handle_dollar(char **buff, const char *line, int *i);
+
+/*
+** wildcard
+*/
+void	ft_wildcard(char *pat);
 
 /*
 ** redir
@@ -88,8 +97,7 @@ void	ft_redirclear(t_redir *list);
 */
 t_cmd	*ft_cmdnew(void);
 t_cmd	*ft_cmdlast(t_cmd *head);
-void	ft_cmdadd_back(t_cmd **head, t_cmd *new);
-void	ft_cmdclear(t_cmd *list);
+void	ft_cmdadd_back(t_cmd *new);
 char	ft_cmd(t_cmd **cmd, char opt);
 
 /*
