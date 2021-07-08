@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 19:22:35 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 06:59:20 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 08:38:08 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,17 +55,20 @@ static char	wildcard_algo(const char *pat, const char *txt, int i, int j)
 	return (0);
 }
 
-static void	replace_placeholder(char *pat)
+static void	wildcard_to_av(DIR *dirp, char *pat, t_list *head)
 {
-	int	i;
+	t_cmd	*cmd;
+	t_list	*last;
 
-	i = 0;
-	while (pat[i])
-	{
-		if (pat[i] == WILDCARD_PLACEHOLDER)
-			pat[i] = '*';
-		i++;
-	}
+	free(pat);
+	(void)closedir(dirp);
+	ft_cmd(&cmd, CMD_GET);
+	if (!cmd)
+		return ;
+	last = ft_cmdlast(cmd)->av;
+	if (!last)
+		return ;
+	ft_lstlast(last)->next = head;
 }
 
 void	ft_wildcard(char *pat)
@@ -73,26 +76,24 @@ void	ft_wildcard(char *pat)
 	struct dirent	*dp;
 	DIR				*dirp;
 	char			count;
+	t_list			*head;
 
 	count = 0;
+	head = NULL;
 	dirp = opendir(".");
 	if (dirp == NULL)
 		return ((void)ft_error("wildcard", "`opendir` failed to open cwd"));
 	while (1)
 	{
 		dp = readdir(dirp);
+		if (!dp && !count)
+			break ;
 		if (!dp)
-		{
-			(void)closedir(dirp);
-			if (!count)
-				break ;
-			free(pat);
-			return ;
-		}
+			return (wildcard_to_av(dirp, pat, head));
 		if ((dp->d_name[0] != '.' || pat[0] == '.') \
 			&& wildcard_algo(pat, dp->d_name, 0, 0) && ++count)
-			word_to_av(ft_strdup(dp->d_name));
+			ft_lstadd_sorted(&head, ft_lstnew(ft_strdup(dp->d_name)));
 	}
-	replace_placeholder(pat);
+	ft_replacechar(pat, WILDCARD_PLACEHOLDER, '*');
 	word_to_av(pat);
 }

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 07:24:01 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 08:05:05 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ char	ft_ismeta(const char c);
 char	ft_isname_start(const char c);
 char	*line_to_name(const char *line, int *i);
 char	**list_to_array(t_list *head);
+void	ft_replacechar(char *s, char old, char new);
+void	ft_lstadd_sorted(t_list **head, t_list *new);
 
 /*
 ** env
