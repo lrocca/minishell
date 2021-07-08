@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/26 03:12:19 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 07:35:39 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 17:02:25 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,14 @@ static char	handle_pipe(const char *line, int *i)
 	if (ft_cmd(&head, CMD_GET) || !head)
 		return (lexer_error(line[*i]));
 	(*i)++;
-	word = line_to_word(line, i, WILDCARD_DISABLED);
-	if (!word && !line[*i])
-		return (lexer_error(line[*i]));
 	ft_cmdadd_back(ft_cmdnew());
+	word = line_to_word(line, i, WILDCARD_OK);
+	if (!word && !line[*i] && !ft_cmdlast(head)->av)
+		return (lexer_error(line[*i]));
 	if (word)
 		word_to_av(word);
-	else if (line[*i] == '<' || line[*i] == '>')
-		if (handle_redir(line, i) < 0)
-			return (-1);
+	else if ((line[*i] == '<' || line[*i] == '>') && handle_redir(line, i) < 0)
+		return (-1);
 	return (0);
 }
 
@@ -76,9 +75,9 @@ void	ms_lexer(const char *line)
 	char	*word;
 
 	i = 0;
-	word = line_to_word(line, &i, WILDCARD_DISABLED);
 	while (1)
 	{
+		word = line_to_word(line, &i, WILDCARD_OK);
 		if (word)
 			word_to_av(word);
 		else if (!line[i])
@@ -90,6 +89,5 @@ void	ms_lexer(const char *line)
 		}
 		else if (handle_redir(line, &i) == -1)
 			return ((void)lexer_error(line[i]));
-		word = line_to_word(line, &i, WILDCARD_ENABLED);
 	}
 }

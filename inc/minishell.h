@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 02:14:24 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 08:05:05 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 14:37:55 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@
 # define ERR_SIGINT			130
 # define ERR_SYNTAX			258
 
-# define WILDCARD_ENABLED		0
-# define WILDCARD_DISABLED		1
+# define WILDCARD_OK			0
+# define WILDCARD_KO			1
 # define WILDCARD_PLACEHOLDER	'\a'
 
 typedef struct s_redir

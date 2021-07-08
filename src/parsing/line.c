@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 03:40:49 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 08:51:17 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 18:10:28 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,23 +67,22 @@ char	*line_to_word(const char *line, int *i, char opt)
 
 	buff = NULL;
 	quote = 0;
-	if (!line[*i])
-		return (NULL);
 	while (line[*i])
 	{
 		if (!buff && !quote && skip_spaces(line, i))
 			continue ;
 		if (!quote && (ft_ismeta(line[*i]) || (buff && ft_isspace(line[*i]))))
 			break ;
-		else if (opt == WILDCARD_ENABLED && line[*i] == '*' && !quote)
+		else if (line[*i] == '*' && !quote && opt == WILDCARD_KO)
+			return (buff_to_word(&buff, 1));
+		else if (line[*i] == '*' && !quote && opt == WILDCARD_OK)
 			handle_wildcard(&buff, &quote, line, i);
 		else if (line[*i] == '$' && quote != '\'')
 			handle_dollar(&buff, line, i);
 		else if (line[*i] != '\'' && line[*i] != '\"')
 			char_to_buff(&buff, line[*i]);
-		else
-			if (handle_quotes(&buff, &quote, line[*i], line[*i + 1]))
-				return (ft_strdup(""));
+		else if (handle_quotes(&buff, &quote, line[*i], line[*i + 1]))
+			return (ft_strdup(""));
 		(*i)++;
 	}
 	return (buff_to_word(&buff, quote));

@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 19:22:35 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 08:38:08 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 17:01:31 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,18 @@ static char	wildcard_algo(const char *pat, const char *txt, int i, int j)
 static void	wildcard_to_av(DIR *dirp, char *pat, t_list *head)
 {
 	t_cmd	*cmd;
-	t_list	*last;
 
 	free(pat);
 	(void)closedir(dirp);
 	ft_cmd(&cmd, CMD_GET);
 	if (!cmd)
 		return ;
-	last = ft_cmdlast(cmd)->av;
-	if (!last)
-		return ;
-	ft_lstlast(last)->next = head;
+	cmd = ft_cmdlast(cmd);
+	if (!cmd->av)
+		cmd->av = head;
+	else
+		ft_lstlast(cmd->av)->next = head;
+
 }
 
 void	ft_wildcard(char *pat)
