@@ -32,6 +32,7 @@
 # define CMD_SET	2
 
 # define ERR_CMD_NOT_FOUND	127
+# define ERR_SIGINT			130
 # define ERR_SYNTAX			258
 
 typedef struct s_redir

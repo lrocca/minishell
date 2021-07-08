@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 15:58:22 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/06 12:31:18 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 05:12:50 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	cmd_exec_from_path(t_list *av)
 	if (!bin)
 	{
 		ft_error(av->content, "command not found");
-		return (127);
+		return (ERR_CMD_NOT_FOUND);
 	}
 	argv = list_to_array(av);
 	envp = list_to_array(g_ms.env);
