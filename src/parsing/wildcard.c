@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 19:22:35 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 17:01:31 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 18:17:46 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ static void	wildcard_to_av(DIR *dirp, char *pat, t_list *head)
 		cmd->av = head;
 	else
 		ft_lstlast(cmd->av)->next = head;
-
 }
 
 void	ft_wildcard(char *pat)
