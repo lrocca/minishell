@@ -6,7 +6,7 @@
 /*   By: lrocca <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/03 03:40:49 by lrocca            #+#    #+#             */
-/*   Updated: 2021/07/08 07:32:07 by lrocca           ###   ########.fr       */
+/*   Updated: 2021/07/08 08:51:17 by lrocca           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	handle_wildcard(char **buff, char *quote, const char *line, int *i)
 		(*i)++;
 	}
 	ft_wildcard(buff_to_word(buff, 0));
+	(*i)--;
 }
 
 char	*line_to_word(const char *line, int *i, char opt)
